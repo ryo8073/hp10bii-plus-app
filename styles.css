@@ -115,13 +115,13 @@ body {
 .keys-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 8px;
 }
 
 .key {
     position: relative;
-    padding: 10px 5px;
-    font-size: 1em;
+    padding: 5px;
+    font-size: 1.1em;
     font-weight: bold;
     border: 1px solid var(--key-border);
     border-radius: 8px;
@@ -129,11 +129,13 @@ body {
     color: var(--key-text-main);
     cursor: pointer;
     transition: all 0.1s ease;
-    min-height: 45px;
+    min-height: 55px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    line-height: 1.2;
 }
 
 .key:active {
@@ -156,22 +158,22 @@ body {
     color: var(--key-shift-text);
 }
 
-.shift-orange, .shift-blue {
-    position: absolute;
-    font-size: 0.6em;
-    font-weight: normal;
-}
-
 .shift-blue {
-    top: 3px;
-    left: 5px;
     color: var(--key-text-blue);
+    font-size: 0.65em;
+    font-weight: normal;
+    align-self: flex-start;
+    padding-left: 4px;
+    line-height: 1;
 }
 
 .shift-orange {
-    bottom: 3px;
-    right: 5px;
     color: var(--key-text-orange);
+    font-size: 0.65em;
+    font-weight: normal;
+    align-self: flex-end;
+    padding-right: 4px;
+    line-height: 1;
 }
 
 /* Dark mode adjustments for calculator if needed */
@@ -310,4 +312,8 @@ body {
     .ca-layout {
         grid-template-columns: 1fr;
     }
+}
+
+#capital-accumulation-content {
+    display: none;
 } 

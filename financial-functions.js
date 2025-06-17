@@ -1,7 +1,7 @@
 // HP10BII+ 電卓の金融計算関数
 // 高精度の金融計算を提供するモジュール
 
-import Decimal from 'decimal.js';
+// Decimal.jsはグローバルにロードされるため、importは不要
 
 // 計算精度の設定
 Decimal.set({ precision: 12, rounding: Decimal.ROUND_HALF_UP });
