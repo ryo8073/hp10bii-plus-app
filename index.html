@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP10BII+ 電卓エミュレーター & 資本蓄積計算ツール</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/decimal.js/decimal.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <nav class="tabs">
+                <button id="tab-calculator" class="tab-button active" onclick="showTab('calculator')">HP10BII+ 電卓</button>
+                <button id="tab-capital-accumulation" class="tab-button" onclick="showTab('capital-accumulation')">資本蓄積計算</button>
+            </nav>
+        </header>
+        <main class="content-area">
+            <div id="calculator-content" class="tab-content active">
+                <div class="calculator">
+                    <div class="display-container">
+                        <div class="display-status">
+                            <span id="shift-status"></span>
+                            <span id="mode-status">FIN</span>
+                            <span id="memory-status"></span>
+                        </div>
+                        <div id="display" class="display-main">0</div>
+                    </div>
+                    <div class="keys-grid">
+                        <!-- Function Keys -->
+                        <button class="key key-func" data-key="N"><span class="shift-up">AMORT</span>N</button>
+                        <button class="key key-func" data-key="I/YR"><span class="shift-up">I CONV</span>I/YR</button>
+                        <button class="key key-func" data-key="PV"><span class="shift-up">NPV</span>PV</button>
+                        <button class="key key-func" data-key="PMT"><span class="shift-up">IRR</span>PMT</button>
+                        <button class="key key-func" data-key="FV"><span class="shift-up">BOND</span>FV</button>
+                        
+                        <!-- Middle Keys -->
+                        <button class="key" data-key="RCL"><span class="shift-up">STO</span>RCL</button>
+                        <button class="key key-num" data-key="7">7</button>
+                        <button class="key key-num" data-key="8">8</button>
+                        <button class="key key-num" data-key="9">9</button>
+                        <button class="key key-op" data-key="DIVIDE"><span class="shift-up">y^x</span>÷</button>
+
+                        <button class="key" data-key="+/-"><span class="shift-up">1/x</span>+/-</button>
+                        <button class="key key-num" data-key="4">4</button>
+                        <button class="key key-num" data-key="5">5</button>
+                        <button class="key key-num" data-key="6">6</button>
+                        <button class="key key-op" data-key="MULTIPLY"><span class="shift-up">n!</span>×</button>
+
+                        <button class="key" data-key="MEM"><span class="shift-up">M+</span><span class="shift-down">M-</span>MEM</button>
+                        <button class="key key-num" data-key="1">1</button>
+                        <button class="key key-num" data-key="2">2</button>
+                        <button class="key key-num" data-key="3">3</button>
+                        <button class="key key-op" data-key="SUBTRACT"><span class="shift-up">LN</span>-</button>
+
+                        <button class="key" data-key="ON"><span class="shift-up">OFF</span>ON</button>
+                        <button class="key key-num" data-key="0">0</button>
+                        <button class="key key-num" data-key="DECIMAL">.</button>
+                        <button class="key key-op" data-key="EQUALS"><span class="shift-up">e^x</span>=</button>
+                        <button class="key key-op" data-key="ADD"><span class="shift-up">RND</span>+</button>
+                        
+                        <!-- Bottom Keys -->
+                        <button class="key key-shift-up" data-key="SHIFT_UP">↑</button>
+                        <button class="key key-shift-down" data-key="SHIFT_DOWN">↓</button>
+                        <button class="key" data-key="CF"><span class="shift-up">CFLO</span>CF</button>
+                        <button class="key" data-key="INPUT"><span class="shift-up">MODE</span>INPUT</button>
+                        <button class="key" data-key="BACKSPACE"><span class="shift-up">CLR ALL</span>←</button>
+                        
+                        <button class="key" data-key="SWAP"><span class="shift-up">K</span>SWAP</button>
+                        <button class="key" data-key="("><span class="shift-up">P/YR</span>(</button>
+                        <button class="key" data-key=")"><span class="shift-up">BEG/END</span>)</button>
+                        <button class="key" data-key="%"><span class="shift-up">Δ%</span>%</button>
+                        <button class="key" data-key="C"><span class="shift-up">C ALL</span>C</button>
+                        
+                        <button class="key" data-key="MRGN"><span class="shift-up">μ,w,x</span>MRGN</button>
+                        <button class="key" data-key="COST"><span class="shift-up">σ,w,x</span>COST</button>
+                        <button class="key" data-key="PRICE"><span class="shift-up">Σ+</span>PRICE</button>
+                        <button class="key" data-key="B.EVN"><span class="shift-up">Σ-</span>B.EVN</button>
+                        <button class="key" data-key="CE"><span class="shift-up">DATE</span>CE</button>
+                    </div>
+                </div>
+            </div>
+            <div id="capital-accumulation-content" class="tab-content">
+                <div class="capital-accumulation-container">
+                    <h1>資本蓄積計算ツール</h1>
+                    <div class="ca-layout">
+                        <div class="ca-form-section">
+                            <h2>入力フォーム</h2>
+                            <form id="ca-form">
+                                <div class="form-group">
+                                    <label for="reinvestment-rate">再投資率 (%)</label>
+                                    <input type="number" id="reinvestment-rate" value="10" step="0.1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="safety-rate">安全率 (%)</label>
+                                    <input type="number" id="safety-rate" value="5" step="0.1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="total-investment">総投資額 (円)</label>
+                                    <input type="number" id="total-investment" value="10000000" step="10000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="calculation-years">計算年数</label>
+                                    <input type="number" id="calculation-years" value="10" min="1" max="50" required>
+                                </div>
+                                <button type="submit" class="ca-button">計算する</button>
+                            </form>
+                        </div>
+                        <div class="ca-results-section">
+                            <h2>計算結果</h2>
+                            <div id="ca-summary" class="ca-summary"></div>
+                            <div class="ca-chart-container">
+                                <canvas id="ca-chart"></canvas>
+                            </div>
+                            <div id="ca-table-container" class="ca-table-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="main.js"></script>
+    <script type="module" src="capital-accumulation-ui.js"></script>
+</body>
+</html> 

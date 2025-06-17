@@ -1,0 +1,326 @@
+:root {
+    --primary-bg-color: #f0f0f0;
+    --secondary-bg-color: #ffffff;
+    --text-color: #333333;
+    --accent-color: #007bff;
+    --border-color: #dddddd;
+    --button-bg-color: #e0e0e0;
+    --button-hover-bg-color: #d0d0d0;
+    --button-active-bg-color: #c0c0c0;
+}
+
+[data-theme="dark"] {
+    --primary-bg-color: #1a1a1a;
+    --secondary-bg-color: #2a2a2a;
+    --text-color: #f0f0f0;
+    --accent-color: #4da3ff;
+    --border-color: #444444;
+    --button-bg-color: #3a3a3a;
+    --button-hover-bg-color: #4a4a4a;
+    --button-active-bg-color: #5a5a5a;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.app-header {
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tab-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-color);
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.tab-button:hover {
+    color: var(--accent-color);
+}
+
+.tab-button.active {
+    border-bottom-color: var(--accent-color);
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: var(--secondary-bg-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Calculator Styles */
+.calculator {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #2c2c2c;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.display-container {
+    background-color: #c3d0c4;
+    border: 2px solid #888;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.display-status {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 5px;
+    height: 14px;
+}
+
+#shift-status {
+    font-weight: bold;
+}
+
+.display-main {
+    font-size: 36px;
+    text-align: right;
+    color: #000;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 5px;
+    background-color: #dde8df;
+    border-radius: 3px;
+}
+
+.keys-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.key {
+    position: relative;
+    padding: 15px 5px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #5a5a5a;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.key:active {
+    transform: translateY(2px);
+    background-color: #6a6a6a;
+}
+
+.key .shift-up, .key .shift-down {
+    position: absolute;
+    font-size: 10px;
+    font-weight: normal;
+}
+
+.key .shift-up {
+    top: 3px;
+    left: 5px;
+    color: #89cff0; /* Blue */
+}
+
+.key .shift-down {
+    bottom: 3px;
+    right: 5px;
+    color: #ffb347; /* Orange */
+}
+
+.key-num {
+    background-color: #4a4a4a;
+}
+
+.key-op {
+    background-color: #777;
+}
+
+.key-func {
+    background-color: #3d3d3d;
+}
+
+.key-shift-up {
+    background-color: #89cff0;
+    color: #000;
+}
+
+.key-shift-down {
+    background-color: #ffb347;
+    color: #000;
+}
+
+/* Dark mode adjustments for calculator if needed */
+[data-theme="dark"] .calculator {
+    background-color: #1e1e1e;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.5);
+}
+
+[data-theme="dark"] .display-container {
+    background-color: #2a3a2b; /* Darker green */
+}
+
+[data-theme="dark"] .display-main {
+    background-color: #3a4a3b;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .display-status {
+    color: #ccc;
+}
+
+/* Capital Accumulation Styles */
+.capital-accumulation-container {
+    padding: 20px;
+}
+
+.ca-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+}
+
+.ca-form-section h2, .ca-results-section h2 {
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--secondary-bg-color);
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.ca-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ca-button:hover {
+    background-color: #0056b3;
+}
+
+[data-theme="dark"] .ca-button:hover {
+    background-color: #6dafff;
+}
+
+.ca-results-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ca-summary {
+    background-color: var(--primary-bg-color);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.ca-summary h3 {
+    margin-top: 0;
+}
+
+.ca-summary p {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ca-summary p span:first-child {
+    font-weight: bold;
+}
+
+.ca-chart-container {
+    position: relative;
+    height: 40vh;
+}
+
+.ca-table-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.ca-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+.ca-table th, .ca-table td {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.ca-table th {
+    background-color: var(--primary-bg-color);
+    position: sticky;
+    top: 0;
+}
+
+/* Responsive adjustments for Capital Accumulation */
+@media (max-width: 768px) {
+    .ca-layout {
+        grid-template-columns: 1fr;
+    }
+} 
