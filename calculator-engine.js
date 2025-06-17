@@ -1,6 +1,7 @@
 // HP10BII+ 電卓の計算エンジン
 // 高精度計算と状態管理を提供
 
+import Decimal from 'https://cdn.jsdelivr.net/npm/decimal.js/decimal.mjs';
 import MemoryManager from './memory-manager.js';
 import { formatNumber } from './utils.js';
 import { calculateTVM } from './financial-functions.js';
@@ -236,5 +237,15 @@ export default class CalculatorEngine {
 
   get displayValue() {
     return this.display;
+  }
+
+  backspace() {
+    if (!this.isEnteringInput) return; // Don't backspace on calculated results
+    if (this.currentInput.length > 1) {
+        this.currentInput = this.currentInput.slice(0, -1);
+    } else {
+        this.currentInput = '0';
+    }
+    this.updateDisplay();
   }
 }

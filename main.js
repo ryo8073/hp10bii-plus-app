@@ -118,6 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         engine.clear();
                     }
                     break;
+                case 'BACKSPACE':
+                    engine.backspace();
+                    break;
                 case '+/-':
                     engine.changeSign();
                     break;

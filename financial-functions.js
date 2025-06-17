@@ -1,3 +1,5 @@
+import Decimal from 'https://cdn.jsdelivr.net/npm/decimal.js/decimal.mjs';
+
 // HP10BII+ 電卓の金融計算関数
 // 高精度の金融計算を提供するモジュール
 

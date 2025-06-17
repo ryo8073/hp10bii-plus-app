@@ -1,4 +1,4 @@
-import { Decimal } from 'decimal.js';
+import Decimal from 'https://cdn.jsdelivr.net/npm/decimal.js/decimal.mjs';
 
 export class Utils {
     // 数値を指定された桁数でフォーマット
