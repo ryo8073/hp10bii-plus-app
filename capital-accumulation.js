@@ -1,8 +1,6 @@
 // 資本蓄積（Capital Accumulation）計算モジュール
 // CCIMで使用される資本蓄積の計算機能を提供
 
-import { Decimal } from 'decimal.js';
-
 // 計算精度の設定
 Decimal.set({ precision: 12, rounding: Decimal.ROUND_HALF_UP });
 

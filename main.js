@@ -186,6 +186,44 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDisplay();
     });
 
+    // --- Keyboard Input Support ---
+    document.addEventListener('keydown', (event) => {
+        // Prevent handling keyboard events if the user is typing in an input field
+        if (event.target.tagName === 'INPUT') {
+            return;
+        }
+
+        let key = event.key;
+        let handled = true;
+
+        if (key >= '0' && key <= '9') {
+            engine.inputDigit(key);
+        } else if (key === '.') {
+            engine.inputDecimal();
+        } else if (key === '+') {
+            engine.setOperator('ADD');
+        } else if (key === '-') {
+            engine.setOperator('SUBTRACT');
+        } else if (key === '*') {
+            engine.setOperator('MULTIPLY');
+        } else if (key === '/') {
+            engine.setOperator('DIVIDE');
+        } else if (key === 'Enter' || key === '=') {
+            engine.calculate();
+        } else if (key === 'Backspace') {
+            engine.backspace();
+        } else if (key === 'Escape') {
+            engine.clear();
+        } else {
+            handled = false;
+        }
+
+        if (handled) {
+            event.preventDefault(); // Prevent default browser action (e.g., '/' for quick find)
+            updateDisplay();
+        }
+    });
+
     // Initial Display Update
     updateDisplay();
 }); 
