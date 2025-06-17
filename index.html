@@ -18,8 +18,8 @@
         </header>
         <main class="content-area">
             <div id="calculator-content" class="tab-content active">
-                <div class="calculator">
-                    <div class="display-container">
+                <div class="calculator-container">
+                    <div class="display">
                         <div class="display-status">
                             <span id="shift-status"></span>
                             <span id="mode-status">FIN</span>
@@ -28,47 +28,75 @@
                         <div id="display" class="display-main">0</div>
                     </div>
                     <div class="keys-grid">
-                        <!-- Row 1: TVM -->
-                        <button class="key key-func" data-key="N"><span class="shift-up">AMORT</span>N</button>
-                        <button class="key key-func" data-key="I/YR"><span class="shift-up">I CONV</span>I/YR</button>
-                        <button class="key key-func" data-key="PV"><span class="shift-up">NPV</span>PV</button>
-                        <button class="key key-func" data-key="PMT"><span class="shift-up">IRR</span>PMT</button>
-                        <button class="key key-func" data-key="FV"><span class="shift-up">BOND</span>FV</button>
-                        
+                        <!-- Row 1 -->
+                        <button class="key" data-key="N" data-shift-orange="xP/YR" data-shift-blue="AccInt">N</button>
+                        <button class="key" data-key="I/YR" data-shift-orange="NOM%" data-shift-blue="YTM">I/YR</button>
+                        <button class="key" data-key="PV" data-shift-orange="EFF%" data-shift-blue="PRICE">PV</button>
+                        <button class="key" data-key="PMT" data-shift-orange="P/YR" data-shift-blue="CPN%">PMT</button>
+                        <button class="key" data-key="FV" data-shift-orange="AMORT" data-shift-blue="CALL">FV</button>
+
                         <!-- Row 2 -->
-                        <button class="key key-shift-up" data-key="SHIFT_UP">↑</button>
-                        <button class="key key-num" data-key="7">7</button>
-                        <button class="key key-num" data-key="8">8</button>
-                        <button class="key key-num" data-key="9">9</button>
-                        <button class="key key-op" data-key="DIVIDE"><span class="shift-up">y^x</span>÷</button>
+                        <button class="key" data-key="INPUT" data-shift-orange="DATE" data-shift-blue="D.MY/M.DY">INPUT</button>
+                        <button class="key" data-key="MU" data-shift-orange="ΔDAYS" data-shift-blue="360/Act">MU</button>
+                        <button class="key" data-key="CST" data-shift-orange="IRR/YR" data-shift-blue="Semi/Ann">CST</button>
+                        <button class="key" data-key="PRC" data-shift-orange="NPV" data-shift-blue="SetDate">PRC</button>
+                        <button class="key" data-key="MAR" data-shift-orange="Beg/End" data-shift-blue="MatDate">MAR</button>
 
                         <!-- Row 3 -->
-                        <button class="key key-shift-down" data-key="SHIFT_DOWN">↓</button>
-                        <button class="key key-num" data-key="4">4</button>
-                        <button class="key key-num" data-key="5">5</button>
-                        <button class="key key-num" data-key="6">6</button>
-                        <button class="key key-op" data-key="MULTIPLY"><span class="shift-up">n!</span>×</button>
+                        <button class="key" data-key="SWAP" data-shift-orange="%CHG" data-shift-blue="UNITS">SWAP</button>
+                        <button class="key" data-key="SP" data-shift-blue="SP">SP</button>
+                        <button class="key" data-key="BRK" data-shift-blue="BREAKEVEN VC">BRK</button>
+                        <button class="key" data-key="FC" data-shift-blue="FC">FC</button>
+                        <button class="key" data-key="PROFIT" data-shift-orange="Σ-" data-shift-blue="PROFIT">PROFIT</button>
 
                         <!-- Row 4 -->
-                        <button class="key" data-key="RCL"><span class="shift-up">STO</span>RCL</button>
-                        <button class="key key-num" data-key="1">1</button>
-                        <button class="key key-num" data-key="2">2</button>
-                        <button class="key key-num" data-key="3">3</button>
-                        <button class="key key-op" data-key="SUBTRACT"><span class="shift-up">LN</span>-</button>
-
-                        <!-- Row 5 -->
-                        <button class="key" data-key="ON"><span class="shift-up">OFF</span>ON</button>
-                        <button class="key key-num" data-key="0">0</button>
-                        <button class="key" data-key="DECIMAL">.</button>
-                        <button class="key key-op" data-key="EQUALS"><span class="shift-up">e^x</span>=</button>
-                        <button class="key key-op" data-key="ADD"><span class="shift-up">RND</span>+</button>
+                        <button class="key" data-key="SL" data-shift-orange="SOYD" data-shift-blue="DEPRECIATION">SL</button>
+                        <button class="key" data-key="DB" data-shift-blue="DB">DB</button>
+                        <button class="key" data-key="HYP" data-shift-blue="HYP">HYP</button>
+                        <button class="key" data-key="INV" data-shift-blue="INV">INV</button>
+                        <button class="key" data-key="M+" data-shift-orange="RM">M+</button>
                         
-                        <!-- Other keys from original layout, grouped below -->
-                        <button class="key" data-key="+/-"><span class="shift-up">1/x</span>+/-</button>
-                        <button class="key" data-key="INPUT"><span class="shift-up">MODE</span>INPUT</button>
-                        <button class="key" data-key="BACKSPACE"><span class="shift-up">CLR ALL</span>←</button>
-                        <button class="key" data-key="C"><span class="shift-up">C ALL</span>C</button>
-                        <button class="key" data-key="CE"><span class="shift-up">DATE</span>CE</button>
+                        <!-- Row 5 -->
+                        <button class="key" data-key="+/-" data-shift-orange="Σx²">+/-</button>
+                        <button class="key" data-key="RCL" data-shift-orange="STO">RCL</button>
+                        <button class="key" data-key="TO_M" data-shift-orange="C STAT">→M</button>
+                        <button class="key" data-key="SIN" data-shift-orange="Σxy">SIN</button>
+                        <button class="key key-op" data-key="DIVIDE" data-shift-orange="1/x">÷</button>
+                        
+                        <!-- Row 6 -->
+                        <button class="key key-shift-blue" data-key="SHIFT_BLUE">↑</button>
+                        <button class="key key-num" data-key="7" data-shift-orange="n">7</button>
+                        <button class="key key-num" data-key="8" data-shift-orange="Sx,Sy">8</button>
+                        <button class="key key-num" data-key="9" data-shift-orange="σx,σy">9</button>
+                        <button class="key key-op" data-key="COS" data-shift-orange="yx">COS</button>
+                        
+                        <!-- Row 7 -->
+                        <button class="key key-shift-orange" data-key="SHIFT_ORANGE">↓</button>
+                        <button class="key key-num" data-key="4" data-shift-orange="x̄,r">4</button>
+                        <button class="key key-num" data-key="5" data-shift-orange="ȳ,m">5</button>
+                        <button class="key key-num" data-key="6" data-shift-orange="x̄w,b">6</button>
+                        <button class="key key-op" data-key="MULTIPLY" data-shift-orange="×">×</button>
+                        
+                        <!-- Row 8 -->
+                        <button class="key" data-key="C" data-shift-orange="C ALL" data-shift-blue="C MEM">C</button>
+                        <button class="key key-num" data-key="1" data-shift-orange="ex">1</button>
+                        <button class="key key-num" data-key="2" data-shift-orange="LN">2</button>
+                        <button class="key key-num" data-key="3" data-shift-orange="n!">3</button>
+                        <button class="key key-op" data-key="SUBTRACT" data-shift-orange="-">-</button>
+
+                        <!-- Row 9 -->
+                        <button class="key" data-key="ON" data-shift-orange="OFF">ON</button>
+                        <button class="key key-num" data-key="0" data-shift-orange="π">0</button>
+                        <button class="key key-num" data-key="." data-shift-orange="./,">.</button>
+                        <button class="key key-op" data-key="=" data-shift-orange="DISP">=</button>
+                        <button class="key key-op" data-key="ADD" data-shift-orange="x²">+</button>
+
+                        <!-- Row 10 -->
+                        <button class="key" data-key="CHAIN" data-shift-blue="Alg/Chain">CHAIN</button>
+                        <button class="key" data-key="NPR" data-shift-orange="nPr">NPR</button>
+                        <button class="key" data-key="NCR" data-shift-orange="nCr">NCR</button>
+                        <button class="key" data-key="RAND" data-shift-orange="RAND">RAND</button>
+                        <button class="key" data-key="RAD" data-shift-orange="Rad/Deg">RAD</button>
                     </div>
                 </div>
             </div>
