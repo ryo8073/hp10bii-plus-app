@@ -1,5 +1,3 @@
-import { CapitalAccumulation } from './capital-accumulation.js';
-
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('ca-form');
     if (!form) return;
