@@ -1,13 +1,11 @@
 // HP10BII+ 電卓の計算エンジン
 // 高精度計算と状態管理を提供
 
-import { Decimal } from 'decimal.js';
-import { MemoryManager } from './memory-manager.js';
-import { Utils } from './utils.js';
-import { FinancialFunctions } from './financial-functions.js';
+import MemoryManager from './memory-manager.js';
+import { formatNumber } from './utils.js';
 import { calculateTVM } from './financial-functions.js';
 
-// 計算精度の設定
+// Decimal.jsはグローバルにロードされるため、直接 Decimal オブジェクトを使用
 Decimal.set({ precision: 12, rounding: Decimal.ROUND_HALF_UP });
 
 export default class CalculatorEngine {
@@ -229,7 +227,7 @@ export default class CalculatorEngine {
     } else {
       const num = parseFloat(this.currentInput);
       if(!isNaN(num)) {
-        this.display = Utils.formatNumber(num, this.decimalPlaces);
+        this.display = formatNumber(num, this.decimalPlaces);
       } else {
         this.display = this.currentInput; // Display error messages etc.
       }

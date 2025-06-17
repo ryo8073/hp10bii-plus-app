@@ -1,12 +1,38 @@
 :root {
     --primary-bg-color: #f0f0f0;
     --secondary-bg-color: #ffffff;
-    --text-color: #333333;
+    --text-color: #e0e0e0;
     --accent-color: #007bff;
-    --border-color: #dddddd;
+    --border-color: #444;
     --button-bg-color: #e0e0e0;
     --button-hover-bg-color: #d0d0d0;
     --button-active-bg-color: #c0c0c0;
+    --bg-color: #1e1e1e; /* Dark background for the page */
+    --link-color: #64b5f6;
+    --header-bg: #2a2a2a;
+    
+    /* Calculator specific colors */
+    --calculator-bg: #2d2d2d; /* Main calculator body */
+    --calculator-border: #1a1a1a;
+    --display-bg: #c3d0c4; /* Classic green-ish LCD */
+    --display-border: #4a4a4a;
+    --display-main-text: #333;
+    --display-status-text: #555;
+
+    /* Key colors */
+    --key-bg: #3a3a3a; /* Dark grey for keys */
+    --key-border: #2a2a2a;
+    --key-text-main: #f5f5f5; /* White text */
+    --key-text-orange: #ff9800; /* Vibrant orange */
+    --key-text-blue: #2196f3; /* Vibrant blue */
+
+    --key-op-bg: #4a4a4a;
+    --key-op-text: #f5f5f5;
+    
+    --key-num-bg: #3a3a3a; /* Same as default for consistency */
+
+    --key-shift-bg: #5a5a5a;
+    --key-shift-text: #f5f5f5;
 }
 
 [data-theme="dark"] {
@@ -82,7 +108,7 @@ body {
     padding: 20px;
     background-color: var(--calculator-bg);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0,0,0,0.3);
     border: 3px solid var(--calculator-border);
 }
 
@@ -92,7 +118,7 @@ body {
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 20px;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .display-status {
@@ -110,6 +136,7 @@ body {
     text-align: right;
     height: 50px;
     line-height: 50px;
+    text-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
 
 .keys-grid {
@@ -124,6 +151,7 @@ body {
     font-size: 1.1em;
     font-weight: bold;
     border: 1px solid var(--key-border);
+    border-bottom: 3px solid var(--key-border);
     border-radius: 8px;
     background: var(--key-bg);
     color: var(--key-text-main);
@@ -139,7 +167,8 @@ body {
 }
 
 .key:active {
-    transform: scale(0.95);
+    transform: translateY(2px);
+    border-bottom-width: 1px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
@@ -156,6 +185,16 @@ body {
 .key-shift-blue {
     background-color: var(--key-shift-bg);
     color: var(--key-shift-text);
+}
+
+.key-shift-orange {
+    background-color: var(--key-text-orange);
+    color: var(--key-text-main);
+}
+
+.key-shift-blue {
+    background-color: var(--key-text-blue);
+    color: var(--key-text-main);
 }
 
 .shift-blue {

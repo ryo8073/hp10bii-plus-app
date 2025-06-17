@@ -1,18 +1,20 @@
-import { CalculatorEngine } from './calculator-engine.js';
+import CalculatorEngine from './calculator-engine.js';
 
+// --- Tab Switching Logic ---
 function showTab(tabName) {
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
     });
 
-    const buttons = document.querySelectorAll('.tab-button');
-    buttons.forEach(button => {
+    // Deactivate all tab buttons
+    document.querySelectorAll('.tab-button').forEach(button => {
         button.classList.remove('active');
     });
 
-    document.getElementById(tabName + '-content').classList.add('active');
-    document.getElementById('tab-' + tabName).classList.add('active');
+    // Show the selected tab content and activate the button
+    document.getElementById(`${tabName}-content`).classList.add('active');
+    document.getElementById(`tab-${tabName}`).classList.add('active');
 }
 
 // Dark mode toggle (simple version based on system preference)
@@ -26,6 +28,11 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Tab Event Listeners ---
+    document.getElementById('tab-calculator').addEventListener('click', () => showTab('calculator'));
+    document.getElementById('tab-capital-accumulation').addEventListener('click', () => showTab('capital-accumulation'));
+    
+    // --- Calculator Logic ---
     const engine = new CalculatorEngine();
     const display = document.getElementById('display');
     const shiftStatus = document.getElementById('shift-status');
