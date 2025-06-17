@@ -6,7 +6,7 @@ import { Decimal } from 'decimal.js';
 // 計算精度の設定
 Decimal.set({ precision: 12, rounding: Decimal.ROUND_HALF_UP });
 
-export class CapitalAccumulation {
+class CapitalAccumulation {
   constructor() {
     // 初期化
     this.reinvestmentRate = new Decimal(0); // 再投資率
@@ -238,3 +238,6 @@ export class CapitalAccumulation {
     return annualizedROI;
   }
 }
+
+// Make available globally
+window.CapitalAccumulation = CapitalAccumulation;

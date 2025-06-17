@@ -1,5 +1,3 @@
-import { Decimal } from 'decimal.js';
-
 class MemoryManager {
     constructor() {
         this.clearAll();
