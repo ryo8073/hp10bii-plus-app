@@ -237,12 +237,14 @@ class CalculatorEngine {
   }
 
   backspace() {
-    if (!this.isEnteringInput) return; // Don't backspace on calculated results
+    if (this.currentInput === "Error") return;
     if (this.currentInput.length > 1) {
         this.currentInput = this.currentInput.slice(0, -1);
     } else {
         this.currentInput = '0';
     }
+    // After backspace, we are definitely in input mode.
+    this.isEnteringInput = true;
     this.updateDisplay();
   }
 }
