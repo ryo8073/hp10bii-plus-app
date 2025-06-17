@@ -1,53 +1,40 @@
 import { Decimal } from 'decimal.js';
 
-export class MemoryManager {
+class MemoryManager {
     constructor() {
-        this.memory = new Decimal(0);
-        this.registers = new Array(10).fill(new Decimal(0)); // R0-R9
+        this.clearAll();
     }
 
-    // メインメモリに値を保存
-    store(value) {
-        this.memory = new Decimal(value);
+    clearAll() {
+        this.registers = new Array(15).fill(null); // 15 memory registers
+        this.cashFlows = []; // For CFj
     }
 
-    // メインメモリから値を呼び出し
-    recall() {
-        return this.memory;
-    }
-
-    // メインメモリに値を加算
-    addToMemory(value) {
-        this.memory = this.memory.plus(new Decimal(value));
-    }
-
-    // メインメモリから値を減算
-    subtractFromMemory(value) {
-        this.memory = this.memory.minus(new Decimal(value));
-    }
-
-    // メインメモリをクリア
-    clearMemory() {
-        this.memory = new Decimal(0);
-    }
-
-    // 特定のレジスタに値を保存
-    storeRegister(index, value) {
-        if (index >= 0 && index < this.registers.length) {
-            this.registers[index] = new Decimal(value);
+    store(register, value) {
+        if (register >= 0 && register < this.registers.length) {
+            this.registers[register] = value;
         }
     }
 
-    // 特定のレジスタから値を呼び出し
-    recallRegister(index) {
-        if (index >= 0 && index < this.registers.length) {
-            return this.registers[index];
+    recall(register) {
+        if (register >= 0 && register < this.registers.length) {
+            return this.registers[register];
         }
-        return new Decimal(0);
+        return null;
     }
 
-    // すべてのレジスタをクリア
-    clearAllRegisters() {
-        this.registers.fill(new Decimal(0));
+    storeCashFlow(value) {
+        this.cashFlows.push(value);
     }
-} 
+
+    getCashFlows() {
+        return this.cashFlows;
+    }
+
+    clearCashFlows() {
+        this.cashFlows = [];
+    }
+}
+
+// Make available globally
+window.MemoryManager = MemoryManager; 

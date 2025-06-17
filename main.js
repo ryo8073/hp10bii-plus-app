@@ -1,4 +1,4 @@
-import CalculatorEngine from './calculator-engine.js';
+// No imports needed, all classes/functions are global
 
 document.addEventListener('DOMContentLoaded', () => {
 

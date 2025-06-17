@@ -1,14 +1,10 @@
-import Decimal from 'https://cdn.jsdelivr.net/npm/decimal.js/decimal.mjs';
-
 // HP10BII+ 電卓の金融計算関数
 // 高精度の金融計算を提供するモジュール
 
-// Decimal.jsはグローバルにロードされるため、importは不要
-
-// 計算精度の設定
+// Decimal.jsはグローバルにロードされるため、直接 Decimal オブジェクトを使用
 Decimal.set({ precision: 12, rounding: Decimal.ROUND_HALF_UP });
 
-export class FinancialFunctions {
+class FinancialFunctions {
   /**
    * 時間価値計算（TVM）- 期間数を計算
    * @param {Decimal} rate - 期間あたりの利率（小数）
@@ -539,4 +535,70 @@ export class FinancialFunctions {
       marginOfSafety: marginOfSafety
     };
   }
+
+  /**
+   * 組み合わせの数を計算
+   * @param {Decimal} n - 総数
+   * @param {Decimal} r - 選択数
+   * @returns {Decimal} 組み合わせの数
+   */
+  static combination(n, r) {
+    if (n < r) return new Decimal(0);
+    return this.factorial(n).dividedBy(this.factorial(r).times(this.factorial(n - r)));
+  }
 }
+
+/**
+ * 統合されたTVM計算関数
+ * @param {number | null} i_yr - 年利率 (%)
+ * @param {number | null} n_periods - 総期間数
+ * @param {number | null} pmt - 定期支払額
+ * @param {number | null} pv - 現在価値
+ * @param {number | null} fv - 将来価値
+ * @param {string} solveFor - 計算対象の変数 ('N', 'I_YR', 'PV', 'PMT', 'FV')
+ * @param {number} p_yr - 年間支払回数
+ * @param {boolean} isBeginningMode - 支払いが期首か
+ * @returns {number} 計算結果
+ */
+function calculateTVM(i_yr, n_periods, pmt, pv, fv, solveFor, p_yr = 12, isBeginningMode = false) {
+    const rate_per_period = new Decimal(i_yr || 0).div(p_yr).div(100);
+    const n = n_periods ? new Decimal(n_periods) : null;
+    const pmt_dec = pmt ? new Decimal(pmt) : new Decimal(0);
+    const pv_dec = pv ? new Decimal(pv) : new Decimal(0);
+    const fv_dec = fv ? new Decimal(fv) : new Decimal(0);
+
+    let result;
+    const commonArgs = [rate_per_period, pmt_dec, pv_dec, fv_dec, isBeginningMode];
+
+    try {
+        switch (solveFor.toUpperCase()) {
+            case 'N':
+                result = FinancialFunctions.calculateN(...commonArgs);
+                break;
+            case 'I_YR':
+                // calculateRate returns rate per period, so we convert back to annual percentage
+                const rate = FinancialFunctions.calculateRate(n, ...commonArgs.slice(1));
+                result = rate.mul(p_yr).mul(100);
+                break;
+            case 'PV':
+                result = FinancialFunctions.calculatePresentValue(n, ...commonArgs);
+                break;
+            case 'PMT':
+                result = FinancialFunctions.calculatePayment(n, ...commonArgs);
+                break;
+            case 'FV':
+                result = FinancialFunctions.calculateFutureValue(n, ...commonArgs);
+                break;
+            default:
+                throw new Error('Invalid variable to solve for in TVM.');
+        }
+        return result.toDecimalPlaces(6).toNumber();
+    } catch (error) {
+        console.error("TVM calculation error:", error);
+        throw error;
+    }
+}
+
+// Make available globally
+window.FinancialFunctions = FinancialFunctions;
+window.calculateTVM = calculateTVM;
