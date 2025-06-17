@@ -1,37 +1,43 @@
 import CalculatorEngine from './calculator-engine.js';
 
-// --- Tab Switching Logic ---
-function showTab(tabName) {
-    // Hide all tab contents
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-    });
-
-    // Deactivate all tab buttons
-    document.querySelectorAll('.tab-button').forEach(button => {
-        button.classList.remove('active');
-    });
-
-    // Show the selected tab content and activate the button
-    document.getElementById(`${tabName}-content`).classList.add('active');
-    document.getElementById(`tab-${tabName}`).classList.add('active');
-}
-
-// Dark mode toggle (simple version based on system preference)
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-}
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    const newColorScheme = e.matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', newColorScheme);
-});
-
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Tab Switching Logic ---
+    function showTab(tabName) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // Deactivate all tab buttons
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+
+        // Show the selected tab content and activate the button
+        document.getElementById(`${tabName}-content`).classList.add('active');
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+    }
+
     // --- Tab Event Listeners ---
     document.getElementById('tab-calculator').addEventListener('click', () => showTab('calculator'));
     document.getElementById('tab-capital-accumulation').addEventListener('click', () => showTab('capital-accumulation'));
     
+    // Dark mode toggle (simple version based on system preference)
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    const darkModeMatcher = window.matchMedia('(prefers-color-scheme: dark)');
+    if (darkModeMatcher.matches) {
+        applyTheme('dark');
+    }
+
+    darkModeMatcher.addEventListener('change', e => {
+        const newColorScheme = e.matches ? 'dark' : 'light';
+        applyTheme(newColorScheme);
+    });
+
     // --- Calculator Logic ---
     const engine = new CalculatorEngine();
     const display = document.getElementById('display');
