@@ -29,16 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const annualizedROI = ca.calculateAnnualizedROI();
         const irr = ca.calculateIRR();
         const payback = ca.calculatePaybackPeriod();
-        const finalValue = results[results.length - 1].totalValue;
-
+        const finalValue = results.length > 0 ? results[results.length - 1].totalValue : ca.totalInvestment;
 
         summaryContainer.innerHTML = `
             <h3>投資要約</h3>
-            <p><span>初期投資額:</span> <span>¥${ca.totalInvestment.toFormat(0)}</span></p>
-            <p><span>最終総額:</span> <span>¥${finalValue.toFormat(0)}</span></p>
+            <p><span>初期投資額:</span> <span>¥${ca.totalInvestment.toNumber().toLocaleString('ja-JP')}</span></p>
+            <p><span>最終総額:</span> <span>¥${finalValue.toNumber().toLocaleString('ja-JP')}</span></p>
             <p><span>総利回り (ROI):</span> <span>${roi.toFixed(2)}%</span></p>
             <p><span>年平均利回り:</span> <span>${annualizedROI.toFixed(2)}%</span></p>
-            <p><span>内部収益率 (IRR):</span> <span>${irr.toFixed(2)}%</span></p>
+            <p><span>内部収益率 (IRR):</span> <span>${irr ? irr.toFixed(2) : 'N/A'}%</span></p>
             <p><span>投資回収期間:</span> <span>${payback ? payback.toFixed(2) + '年' : '回収不能'}</span></p>
         `;
     }
@@ -62,11 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
             tableHTML += `
                 <tr>
                     <td>${res.year}</td>
-                    <td>¥${res.investmentValue.toFormat(0)}</td>
-                    <td>¥${res.accumulatedCapital.toFormat(0)}</td>
-                    <td>¥${res.totalValue.toFormat(0)}</td>
-                    <td>¥${res.reinvestmentAmount.toFormat(0)}</td>
-                    <td>¥${res.safetyAmount.toFormat(0)}</td>
+                    <td>¥${res.investmentValue.toNumber().toLocaleString('ja-JP')}</td>
+                    <td>¥${res.accumulatedCapital.toNumber().toLocaleString('ja-JP')}</td>
+                    <td>¥${res.totalValue.toNumber().toLocaleString('ja-JP')}</td>
+                    <td>¥${res.reinvestmentAmount.toNumber().toLocaleString('ja-JP')}</td>
+                    <td>¥${res.safetyAmount.toNumber().toLocaleString('ja-JP')}</td>
                 </tr>
             `;
         });
