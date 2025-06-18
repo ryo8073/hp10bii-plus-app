@@ -2,57 +2,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Tab Switching Logic ---
-    function showTab(tabName) {
-        // Hide all tab contents
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-
-        // Deactivate all tab buttons
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.classList.remove('active');
-        });
-
-        // Show the selected tab content and activate the button
-        document.getElementById(`${tabName}-content`).classList.add('active');
-        document.getElementById(`tab-${tabName}`).classList.add('active');
-    }
-
-    // --- Tab Event Listeners ---
-    document.getElementById('tab-calculator').addEventListener('click', () => showTab('calculator'));
-    document.getElementById('tab-capital-accumulation').addEventListener('click', () => showTab('capital-accumulation'));
-    
-    // Dark mode toggle (simple version based on system preference)
-    function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-    }
-
-    const darkModeMatcher = window.matchMedia('(prefers-color-scheme: dark)');
-    if (darkModeMatcher.matches) {
-        applyTheme('dark');
-    }
-
-    darkModeMatcher.addEventListener('change', e => {
-        const newColorScheme = e.matches ? 'dark' : 'light';
-        applyTheme(newColorScheme);
-    });
-
     // --- Calculator Logic ---
     const engine = new CalculatorEngine();
     const display = document.getElementById('display');
     const shiftStatus = document.getElementById('shift-status');
     const keysGrid = document.querySelector('.keys-grid');
     const pendStatus = document.getElementById('pend-status');
-
-    // --- TVM Display Elements ---
-    const tvmDisplays = {
-        N: document.getElementById('tvm-n-display'),
-        I_YR: document.getElementById('tvm-iyr-display'),
-        PV: document.getElementById('tvm-pv-display'),
-        PMT: document.getElementById('tvm-pmt-display'),
-        FV: document.getElementById('tvm-fv-display'),
-    };
 
     // --- Key Highlighting ---
     function flashKey(keyToFlash) {
@@ -85,17 +40,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Display Update Functions ---
-    function updateTVMDisplay() {
-        const format = (val) => (val === null ? '0.00' : val.toFixed(2));
-        for (const key in tvmDisplays) {
-            if (tvmDisplays[key]) {
-                tvmDisplays[key].textContent = format(engine.tvmValues[key]);
+    const updateDisplay = () => {
+        // The C-ALL command has a special temporary display that overrides normal formatting
+        if (engine.currentInput.endsWith('P_Yr-')) {
+            display.textContent = engine.currentInput;
+            return;
+        }
+
+        if (engine.isEnteringInput) {
+            display.textContent = engine.currentInput;
+        } else {
+            const num = parseFloat(engine.currentInput);
+            if (!isNaN(num)) {
+                display.textContent = formatNumber(num, engine.decimalPlaces);
+            } else {
+                display.textContent = engine.currentInput; // Display error messages etc.
             }
         }
-    }
-
-    const updateDisplay = () => {
-        display.textContent = engine.display;
         // Update shift status display
         if (engine.shiftMode === 'orange') {
             shiftStatus.textContent = '↓';
@@ -110,8 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             pendStatus.textContent = '';
         }
-        // Also update the TVM registers display
-        updateTVMDisplay();
     };
 
     keysGrid.addEventListener('click', (event) => {

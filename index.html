@@ -10,12 +10,6 @@
 </head>
 <body>
     <div class="app-container">
-        <header class="app-header">
-            <nav class="tabs">
-                <button id="tab-calculator" class="tab-button active">HP10BII+ 電卓</button>
-                <button id="tab-capital-accumulation" class="tab-button">資本蓄積計算</button>
-            </nav>
-        </header>
         <main class="content-area">
             <div id="calculator-content" class="tab-content active">
                 <div class="calculator-container">
@@ -27,14 +21,6 @@
                             <span id="memory-status"></span>
                         </div>
                         <div id="display" class="display-main">0</div>
-                    </div>
-
-                    <div class="tvm-registers">
-                        <div class="tvm-reg-item"><span>N</span><span id="tvm-n-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span>I/YR</span><span id="tvm-iyr-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span>PV</span><span id="tvm-pv-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span>PMT</span><span id="tvm-pmt-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span>FV</span><span id="tvm-fv-display">0.00</span></div>
                     </div>
 
                     <div class="keys-grid">
@@ -95,43 +81,6 @@
                         <button class="key key-num" data-key="." data-shift-orange=",/.">.</button>
                         <button class="key key-op" data-key="=" data-shift-orange="DISP">=</button>
                         <button class="key key-op" data-key="ADD" data-shift-orange="x²">+</button>
-                    </div>
-                </div>
-            </div>
-            <div id="capital-accumulation-content" class="tab-content">
-                <div class="capital-accumulation-container">
-                    <h1>資本蓄積計算ツール</h1>
-                    <div class="ca-layout">
-                        <div class="ca-form-section">
-                            <h2>入力フォーム</h2>
-                            <form id="ca-form">
-                                <div class="form-group">
-                                    <label for="reinvestment-rate">再投資率 (%)</label>
-                                    <input type="number" id="reinvestment-rate" value="10" step="0.1" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="safety-rate">安全率 (%)</label>
-                                    <input type="number" id="safety-rate" value="5" step="0.1" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="total-investment">総投資額 (円)</label>
-                                    <input type="number" id="total-investment" value="10000000" step="10000" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="calculation-years">計算年数</label>
-                                    <input type="number" id="calculation-years" value="10" min="1" max="50" required>
-                                </div>
-                                <button type="submit" class="ca-button">計算する</button>
-                            </form>
-                        </div>
-                        <div class="ca-results-section">
-                            <h2>計算結果</h2>
-                            <div id="ca-summary" class="ca-summary"></div>
-                            <div class="ca-chart-container">
-                                <canvas id="ca-chart"></canvas>
-                            </div>
-                            <div id="ca-table-container" class="ca-table-container"></div>
-                        </div>
                     </div>
                 </div>
             </div>

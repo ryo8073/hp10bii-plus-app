@@ -171,6 +171,8 @@ body {
     align-items: center;
     text-align: center;
     line-height: 1.2;
+    width: 62px; /* Force consistent width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 .key:active {

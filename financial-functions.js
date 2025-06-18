@@ -121,17 +121,21 @@ class FinancialFunctions {
       return pv.plus(fv).negated().dividedBy(n);
     }
     
-    // 支払期首/期末の調整係数
     const begFactor = begin ? new Decimal(1).plus(rate) : new Decimal(1);
-    
-    // (1 + 利率)^期間数 を計算
-    const pvif = new Decimal(1).plus(rate).pow(n);
 
-    // より堅牢な計算式に変更
+    // FVがゼロの場合、より単純な年金の現在価値の公式を使用
+    if (fv.isZero()) {
+        const denominator = new Decimal(1).minus(new Decimal(1).plus(rate).pow(n.negated()));
+        if (denominator.isZero()) return new Decimal(0);
+        return pv.times(rate).times(begFactor).dividedBy(denominator).negated();
+    }
+    
+    // FVがゼロでない場合の完全な公式
+    const pvif = new Decimal(1).plus(rate).pow(n);
     const numerator = pv.times(pvif).plus(fv);
     const denominator = begFactor.times(pvif.minus(1)).dividedBy(rate);
 
-    if (denominator.isZero()) return new Decimal(0); // Avoid division by zero
+    if (denominator.isZero()) return new Decimal(0);
 
     return numerator.dividedBy(denominator).negated();
   }
