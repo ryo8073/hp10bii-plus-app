@@ -146,6 +146,11 @@ body {
     color: var(--display-status-text);
 }
 
+#beg-status {
+    padding-right: 5px;
+    font-weight: bold;
+}
+
 .keys-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -173,6 +178,7 @@ body {
     line-height: 1.2;
     width: 62px; /* Force consistent width */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    overflow: hidden; /* Prevent text from spilling out */
 }
 
 .key:active {
@@ -218,6 +224,10 @@ body {
     font-weight: normal;
     line-height: 1;
     position: absolute;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 90%;
 }
 
 .shift-blue {
@@ -396,16 +406,16 @@ body {
 .tvm-registers {
     display: flex;
     justify-content: space-around;
-    padding: 5px;
-    margin-bottom: 15px;
+    padding: 2px 5px; /* Reduced vertical padding */
+    margin-bottom: 12px; /* Adjusted margin */
     background-color: rgba(0,0,0,0.2);
     border-radius: 5px;
 }
 .tvm-reg-item span {
-    font-size: 1.2em;
+    font-size: 1.1em; /* Reduced font size */
     font-family: 'Segment7', sans-serif;
     color: var(--key-text-orange);
-    padding: 2px 4px;
-    min-width: 45px;
+    padding: 1px 3px; /* Reduced padding */
+    min-width: 40px;
     text-align: center;
 } 

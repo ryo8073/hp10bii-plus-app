@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shiftStatus = document.getElementById('shift-status');
     const keysGrid = document.querySelector('.keys-grid');
     const pendStatus = document.getElementById('pend-status');
+    const begStatus = document.getElementById('beg-status');
 
     // --- TVM Display Elements ---
     const tvmDisplays = {
@@ -90,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             pendStatus.textContent = '';
         }
+        // Update BEG/END status
+        begStatus.textContent = engine.tvmValues.isBeginningMode ? 'BEG' : '';
         // Also update the TVM registers display
         updateTVMDisplay();
     };
@@ -183,6 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             engine.calculateTVM(key);
                         }
                     }
+                    break;
+
+                case 'MAR':
+                    if (orangeShifted) {
+                        engine.toggleBeginningMode();
+                    }
+                    // else, handle non-shifted MAR key if needed
                     break;
 
                 default:

@@ -44,7 +44,8 @@ class CalculatorEngine {
     this.currentInput = `${this.tvmValues.P_YR} P_Yr-`;
     this.isEnteringInput = false; // This is a display state, not input
     this.updateDisplay();
-    this.currentInput = '0'; // Reset for next input, but display remains until then
+    // After display, immediately reset currentInput for the next user action
+    this.currentInput = '0';
   }
 
   toggleNumberFormatStyle() {
@@ -215,6 +216,8 @@ class CalculatorEngine {
         this.tvmValues.isBeginningMode
       );
       this.currentInput = result.toString();
+      // Store the result back into the TVM register.
+      this.tvmValues[internalKey] = result;
     } catch(error) {
       this.currentInput = "Error";
     }
@@ -291,6 +294,11 @@ class CalculatorEngine {
     }
     // After backspace, we are definitely in input mode.
     this.isEnteringInput = true;
+    this.updateDisplay();
+  }
+
+  toggleBeginningMode() {
+    this.tvmValues.isBeginningMode = !this.tvmValues.isBeginningMode;
     this.updateDisplay();
   }
 }

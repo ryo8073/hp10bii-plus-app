@@ -562,38 +562,37 @@ class FinancialFunctions {
  * @returns {number} 計算結果
  */
 function calculateTVM(i_yr, n_periods, pmt, pv, fv, solveFor, p_yr = 12, isBeginningMode = false) {
-    const rate_per_period = new Decimal(i_yr || 0).div(p_yr).div(100);
-    const n = n_periods ? new Decimal(n_periods) : null;
+    const rate = new Decimal(i_yr || 0).div(p_yr || 12).div(100);
+    const n = n_periods ? new Decimal(n_periods) : new Decimal(0);
     const pmt_dec = pmt ? new Decimal(pmt) : new Decimal(0);
     const pv_dec = pv ? new Decimal(pv) : new Decimal(0);
     const fv_dec = fv ? new Decimal(fv) : new Decimal(0);
 
     let result;
-    const commonArgs = [rate_per_period, pmt_dec, pv_dec, fv_dec, isBeginningMode];
 
     try {
         switch (solveFor.toUpperCase()) {
             case 'N':
-                result = FinancialFunctions.calculateN(...commonArgs);
+                result = FinancialFunctions.calculateN(rate, pmt_dec, pv_dec, fv_dec, isBeginningMode);
                 break;
             case 'I_YR':
-                // calculateRate returns rate per period, so we convert back to annual percentage
-                const rate = FinancialFunctions.calculateRate(n, ...commonArgs.slice(1));
-                result = rate.mul(p_yr).mul(100);
+                const rateResult = FinancialFunctions.calculateRate(n, pmt_dec, pv_dec, fv_dec, isBeginningMode);
+                result = rateResult.mul(p_yr || 12).mul(100);
                 break;
             case 'PV':
-                result = FinancialFunctions.calculatePresentValue(n, ...commonArgs);
+                result = FinancialFunctions.calculatePresentValue(n, rate, pmt_dec, fv_dec, isBeginningMode);
                 break;
             case 'PMT':
-                result = FinancialFunctions.calculatePayment(n, ...commonArgs);
+                result = FinancialFunctions.calculatePayment(n, rate, pv_dec, fv_dec, isBeginningMode);
                 break;
             case 'FV':
-                result = FinancialFunctions.calculateFutureValue(n, ...commonArgs);
+                result = FinancialFunctions.calculateFutureValue(n, rate, pmt_dec, pv_dec, isBeginningMode);
                 break;
             default:
                 throw new Error('Invalid variable to solve for in TVM.');
         }
-        return result.toDecimalPlaces(6).toNumber();
+        // Return result rounded for display, but allow more precision internally
+        return result.toDecimalPlaces(9);
     } catch (error) {
         console.error("TVM calculation error:", error);
         throw error;
