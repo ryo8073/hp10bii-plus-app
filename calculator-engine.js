@@ -38,12 +38,19 @@ class CalculatorEngine {
     this.decimalPlaces = 2;
     this.shiftMode = null;
     this.isWaitingForSequencedInput = null;
+    this.numberFormatStyle = 'us'; // 'us' or 'eu'
 
     // Special display for C ALL: show current P/YR
     this.currentInput = `${this.tvmValues.P_YR} P_Yr-`;
     this.isEnteringInput = false; // This is a display state, not input
     this.updateDisplay();
     this.currentInput = '0'; // Reset for next input, but display remains until then
+  }
+
+  toggleNumberFormatStyle() {
+    this.numberFormatStyle = (this.numberFormatStyle === 'us') ? 'eu' : 'us';
+    this.isEnteringInput = false; // Trigger re-display with new format
+    this.updateDisplay();
   }
 
   setDecimalPlaces(places) {
@@ -208,7 +215,6 @@ class CalculatorEngine {
         this.tvmValues.isBeginningMode
       );
       this.currentInput = result.toString();
-      this.tvmValues[internalKey] = result;
     } catch(error) {
       this.currentInput = "Error";
     }
@@ -261,7 +267,11 @@ class CalculatorEngine {
     } else {
       const num = parseFloat(this.currentInput);
       if (!isNaN(num)) {
-        this.display = formatNumber(num, this.decimalPlaces);
+        const style = this.numberFormatStyle === 'us' ? 'en-US' : 'de-DE';
+        this.display = num.toLocaleString(style, {
+            minimumFractionDigits: this.decimalPlaces,
+            maximumFractionDigits: this.decimalPlaces,
+        });
       } else {
         this.display = this.currentInput; // Display error messages etc.
       }

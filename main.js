@@ -9,6 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const keysGrid = document.querySelector('.keys-grid');
     const pendStatus = document.getElementById('pend-status');
 
+    // --- TVM Display Elements ---
+    const tvmDisplays = {
+        N: document.getElementById('tvm-n-display'),
+        I_YR: document.getElementById('tvm-iyr-display'),
+        PV: document.getElementById('tvm-pv-display'),
+        PMT: document.getElementById('tvm-pmt-display'),
+        FV: document.getElementById('tvm-fv-display'),
+    };
+
     // --- Key Highlighting ---
     function flashKey(keyToFlash) {
         const keyElement = keysGrid.querySelector(`.key[data-key="${keyToFlash}"]`);
@@ -40,6 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Display Update Functions ---
+    function updateTVMDisplay() {
+        const format = (val) => (val === null ? '0.00' : val.toFixed(2));
+        for (const key in tvmDisplays) {
+            if (tvmDisplays[key]) {
+                const value = engine.tvmValues[key.toUpperCase()] || engine.tvmValues[key];
+                tvmDisplays[key].textContent = format(value);
+            }
+        }
+    }
+
     const updateDisplay = () => {
         // The C-ALL command has a special temporary display that overrides normal formatting
         if (engine.currentInput.endsWith('P_Yr-')) {
@@ -71,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             pendStatus.textContent = '';
         }
+        // Also update the TVM registers display
+        updateTVMDisplay();
     };
 
     keysGrid.addEventListener('click', (event) => {
@@ -95,7 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     engine.inputDigit(key);
                     break;
                 case '.':
-                    engine.inputDecimal();
+                    if (orangeShifted) {
+                        engine.toggleNumberFormatStyle();
+                    } else {
+                        engine.inputDecimal();
+                    }
                     break;
 
                 // --- Operators ---

@@ -115,29 +115,21 @@ class FinancialFunctions {
    * @returns {Decimal} 定期支払額
    */
   static calculatePayment(n, rate, pv, fv, begin = false) {
+    // HP10BII+の標準である期末払いを想定した、シンプルで堅牢な数式に修正
     // 利率がゼロの場合の特殊処理
     if (rate.isZero()) {
-      if (n.isZero()) return new Decimal(0); // Avoid division by zero
+      if (n.isZero()) return new Decimal(0);
       return pv.plus(fv).negated().dividedBy(n);
     }
     
+    // 期首モード（Annuity Due）の場合の調整
     const begFactor = begin ? new Decimal(1).plus(rate) : new Decimal(1);
 
-    // FVがゼロの場合、より単純な年金の現在価値の公式を使用
-    if (fv.isZero()) {
-        const denominator = new Decimal(1).minus(new Decimal(1).plus(rate).pow(n.negated()));
-        if (denominator.isZero()) return new Decimal(0);
-        return pv.times(rate).times(begFactor).dividedBy(denominator).negated();
-    }
+    const pvif = rate.plus(1).pow(n);
     
-    // FVがゼロでない場合の完全な公式
-    const pvif = new Decimal(1).plus(rate).pow(n);
-    const numerator = pv.times(pvif).plus(fv);
-    const denominator = begFactor.times(pvif.minus(1)).dividedBy(rate);
-
-    if (denominator.isZero()) return new Decimal(0);
-
-    return numerator.dividedBy(denominator).negated();
+    const pmt = rate.div(pvif.minus(1)).times(pv.times(pvif).plus(fv));
+    
+    return pmt.div(begFactor).negated();
   }
   
   /**

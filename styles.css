@@ -212,22 +212,24 @@ body {
     stroke: var(--key-text-main);
 }
 
+.shift-blue,
+.shift-orange {
+    font-size: 0.6em; /* Reduced font size to prevent overflow */
+    font-weight: normal;
+    line-height: 1;
+    position: absolute;
+}
+
 .shift-blue {
     color: var(--key-text-blue);
-    font-size: 0.65em;
-    font-weight: normal;
-    align-self: flex-start;
-    padding-left: 4px;
-    line-height: 1;
+    top: 4px;
+    left: 4px;
 }
 
 .shift-orange {
     color: var(--key-text-orange);
-    font-size: 0.65em;
-    font-weight: normal;
-    align-self: flex-end;
-    padding-right: 4px;
-    line-height: 1;
+    bottom: 4px;
+    right: 4px;
 }
 
 /* Dark mode adjustments for calculator if needed */
@@ -394,31 +396,16 @@ body {
 .tvm-registers {
     display: flex;
     justify-content: space-around;
-    padding: 8px 5px;
+    padding: 5px;
     margin-bottom: 15px;
     background-color: rgba(0,0,0,0.2);
     border-radius: 5px;
-    border: 1px solid var(--display-border);
 }
-.tvm-reg-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.7em;
-    color: var(--display-status-text);
-}
-.tvm-reg-item span:first-child {
-    font-weight: bold;
-    color: var(--key-text-orange);
-}
-.tvm-reg-item span:last-child {
-    font-size: 1.1em;
+.tvm-reg-item span {
+    font-size: 1.2em;
     font-family: 'Segment7', sans-serif;
-    color: var(--display-main-text);
-    margin-top: 3px;
+    color: var(--key-text-orange);
     padding: 2px 4px;
-    min-width: 40px;
+    min-width: 45px;
     text-align: center;
-    background-color: rgba(0,0,0,0.1);
-    border-radius: 3px;
 } 
