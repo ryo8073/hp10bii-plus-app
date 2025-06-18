@@ -117,18 +117,23 @@ class FinancialFunctions {
   static calculatePayment(n, rate, pv, fv, begin = false) {
     // 利率がゼロの場合の特殊処理
     if (rate.isZero()) {
+      if (n.isZero()) return new Decimal(0); // Avoid division by zero
       return pv.plus(fv).negated().dividedBy(n);
     }
     
     // 支払期首/期末の調整係数
     const begFactor = begin ? new Decimal(1).plus(rate) : new Decimal(1);
     
-    // 将来価値の現在価値
+    // (1 + 利率)^期間数 を計算
     const pvif = new Decimal(1).plus(rate).pow(n);
-    
-    // 定期支払額の計算
-    return rate.times(pv.plus(fv.dividedBy(pvif))).negated()
-           .dividedBy(begFactor.times(new Decimal(1).minus(new Decimal(1).dividedBy(pvif))));
+
+    // より堅牢な計算式に変更
+    const numerator = pv.times(pvif).plus(fv);
+    const denominator = begFactor.times(pvif.minus(1)).dividedBy(rate);
+
+    if (denominator.isZero()) return new Decimal(0); // Avoid division by zero
+
+    return numerator.dividedBy(denominator).negated();
   }
   
   /**
