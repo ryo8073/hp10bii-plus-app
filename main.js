@@ -43,7 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const display = document.getElementById('display');
     const shiftStatus = document.getElementById('shift-status');
     const keysGrid = document.querySelector('.keys-grid');
+    const pendStatus = document.getElementById('pend-status');
 
+    // --- Key Highlighting ---
+    function flashKey(keyToFlash) {
+        const keyElement = keysGrid.querySelector(`.key[data-key="${keyToFlash}"]`);
+        if (keyElement) {
+            keyElement.classList.add('key-active');
+            setTimeout(() => {
+                keyElement.classList.remove('key-active');
+            }, 150);
+        }
+    }
+    
     // Dynamically create shift text on keys
     keysGrid.querySelectorAll('.key').forEach(keyElement => {
         const orangeShiftText = keyElement.dataset.shiftOrange;
@@ -73,6 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             shiftStatus.textContent = '';
         }
+        // Update PEND status
+        if (engine.waitingForSecondOperand) {
+            pendStatus.textContent = 'PEND';
+        } else {
+            pendStatus.textContent = '';
+        }
     };
 
     keysGrid.addEventListener('click', (event) => {
@@ -80,6 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!keyElement) return; // If the click was not on a key or inside a key
 
         const key = keyElement.dataset.key;
+        flashKey(key); // Flash the key on click
+
         const orangeShifted = engine.shiftMode === 'orange';
         const blueShifted = engine.shiftMode === 'blue';
 
@@ -197,6 +217,25 @@ document.addEventListener('DOMContentLoaded', () => {
         let code = event.code;
         let handled = true;
 
+        const keyMap = {
+            '0': '0', '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
+            'Numpad0': '0', 'Numpad1': '1', 'Numpad2': '2', 'Numpad3': '3', 'Numpad4': '4', 'Numpad5': '5', 'Numpad6': '6', 'Numpad7': '7', 'Numpad8': '8', 'Numpad9': '9',
+            '.': '.', 'NumpadDecimal': '.',
+            '+': 'ADD', 'NumpadAdd': 'ADD',
+            '-': 'SUBTRACT', 'NumpadSubtract': 'SUBTRACT',
+            '*': 'MULTIPLY', 'NumpadMultiply': 'MULTIPLY',
+            '/': 'DIVIDE', 'NumpadDivide': 'DIVIDE',
+            'Enter': '=', 'NumpadEnter': '=', '=': '=',
+            'Backspace': 'BACKSPACE',
+            'Escape': 'C'
+        };
+
+        const dataKey = keyMap[event.key] || keyMap[event.code];
+
+        if (!dataKey) return; // Do nothing if the key isn't mapped
+
+        flashKey(dataKey); // Flash the corresponding key
+        
         if ((key >= '0' && key <= '9') || (code.startsWith('Numpad') && !isNaN(parseInt(key, 10)))) {
             engine.inputDigit(key);
         } else if (key === '.' || code === 'NumpadDecimal') {
