@@ -183,21 +183,32 @@ body {
 }
 
 .key-row {
-    flex-grow: 1;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
 }
 
+.key-wrapper {
+    position: relative;
+    display: flex; /* Allow button to fill wrapper */
+}
+
+.key-wrapper .key {
+    flex-grow: 1; /* Make button fill the wrapper */
+}
+
 .key-label-external {
     position: absolute;
-    top: -16px;
-    left: 0;
+    bottom: 100%; /* Position above the key */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 4px; /* Space between label and key */
     font-size: 0.7em;
     font-weight: bold;
     color: var(--key-shift-blue-text);
     text-transform: uppercase;
     white-space: nowrap;
+    pointer-events: none; /* Make label non-interactive */
 }
 
 /* Cleanup old selectors */
