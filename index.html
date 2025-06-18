@@ -13,15 +13,14 @@
         <main class="content-area">
             <div id="calculator-content" class="tab-content active">
                 <div class="calculator-container">
-                    <div class="display">
-                        <div class="display-status">
-                            <span id="pend-status"></span>
-                            <span id="shift-status"></span>
-                            <span id="beg-status"></span>
-                            <span id="mode-status">FIN</span>
-                            <span id="memory-status"></span>
+                    <div class="display-container">
+                        <div id="status-indicators" class="status-indicators">
+                            <span id="shift-indicator"></span>
+                            <span id="beg-indicator"></span>
+                            <span id="payments-per-year-indicator"></span>
+                            <span id="mode-indicator"></span>
                         </div>
-                        <div id="display" class="display-main">0</div>
+                        <div id="display" class="display">0</div>
                     </div>
 
                     <div class="tvm-registers">

@@ -8,8 +8,6 @@ class CalculatorEngine {
   constructor() {
     this.memory = new MemoryManager();
     this.clearAll();
-    this.currentInput = '0'; // Per real calc behavior
-    this.updateDisplay();
   }
 
   // Clears the current input and resets operator state
@@ -19,7 +17,6 @@ class CalculatorEngine {
     this.previousInput = null;
     this.isEnteringInput = true;
     this.waitingForSecondOperand = false;
-    this.updateDisplay();
   }
 
   // Resets the entire calculator to its default state
@@ -39,19 +36,13 @@ class CalculatorEngine {
     this.shiftMode = null;
     this.isWaitingForSequencedInput = null;
     this.numberFormatStyle = 'us'; // 'us' or 'eu'
-
-    // Special display for C ALL: show current P/YR
-    this.currentInput = `${this.tvmValues.P_YR} P_Yr-`;
-    this.isEnteringInput = false; // This is a display state, not input
-    this.updateDisplay();
-    // After display, immediately reset currentInput for the next user action
+    // C ALL no longer shows P/YR, it's always visible now.
+    // The engine is ready for new input immediately.
     this.currentInput = '0';
   }
 
   toggleNumberFormatStyle() {
     this.numberFormatStyle = (this.numberFormatStyle === 'us') ? 'eu' : 'us';
-    this.isEnteringInput = false; // Trigger re-display with new format
-    this.updateDisplay();
   }
 
   setDecimalPlaces(places) {
@@ -59,10 +50,7 @@ class CalculatorEngine {
     if (!isNaN(p) && p >= 0 && p <= 9) {
       this.decimalPlaces = p;
     }
-    // After setting decimal places, the calculator is no longer in active input mode.
-    // This will cause the display to re-format the current number.
     this.isEnteringInput = false;
-    this.updateDisplay();
   }
 
   inputDigit(digit) {
@@ -71,40 +59,33 @@ class CalculatorEngine {
       return;
     }
 
-    // If we are not in entry mode OR we are waiting for a second operand, start a new number.
     if (!this.isEnteringInput || this.waitingForSecondOperand) {
       this.currentInput = digit;
     } else {
-      // Otherwise, append to the current number.
       this.currentInput = (this.currentInput === '0') ? digit : this.currentInput + digit;
     }
 
     this.isEnteringInput = true;
     this.waitingForSecondOperand = false;
-    this.updateDisplay();
   }
 
   inputDecimal() {
     if (this.isWaitingForSequencedInput) return;
 
-    // If starting a new number after an op, or not in entry, start with "0."
     if (!this.isEnteringInput || this.waitingForSecondOperand) {
         this.currentInput = '0.';
     } else if (!this.currentInput.includes('.')) {
-        // otherwise, append if no decimal yet
         this.currentInput += '.';
     }
     
     this.isEnteringInput = true;
     this.waitingForSecondOperand = false;
-    this.updateDisplay();
   }
 
   changeSign() {
     if (this.currentInput !== '0' && this.currentInput !== 'Error') {
       this.currentInput = (parseFloat(this.currentInput) * -1).toString();
     }
-    this.updateDisplay();
   }
 
   setOperator(op) {
@@ -115,7 +96,7 @@ class CalculatorEngine {
     this.previousInput = parseFloat(this.currentInput);
     this.operator = op;
     this.waitingForSecondOperand = true;
-    this.isEnteringInput = false; // FINISH number entry, allow formatting
+    this.isEnteringInput = false;
   }
 
   calculate() {
@@ -132,24 +113,15 @@ class CalculatorEngine {
       this.operator = null;
       this.previousInput = null;
     }
-    // Pressing = always finalizes number entry, allowing it to be formatted.
     this.isEnteringInput = false;
-    this.updateDisplay();
   }
 
   setShiftMode(mode) {
-    // Toggle off if the same shift key is pressed again
-    if (this.shiftMode === mode) {
-      this.shiftMode = null;
-    } else {
-      this.shiftMode = mode;
-    }
+    this.shiftMode = (this.shiftMode === mode) ? null : mode;
   }
 
-  // --- Sequenced Inputs (like STO 1, RCL 2, DISP 4) ---
   startSequencedInput(sequenceType) {
     this.isWaitingForSequencedInput = sequenceType;
-    // Maybe update display to show "STO" or "RCL" prompt
   }
 
   handleSequencedInput(digit) {
@@ -165,7 +137,6 @@ class CalculatorEngine {
         break;
     }
     this.isWaitingForSequencedInput = null;
-    // Don't reset shift mode here, main.js will do it
   }
 
   handleShiftedTVM(key) {
@@ -179,17 +150,26 @@ class CalculatorEngine {
             this.currentInput = n.toString();
             break;
         case 'PMT': // Corresponds to P/YR
-            if (value > 0) this.tvmValues.P_YR = value;
+            if (value > 0) this.setPaymentsPerYear(value);
             break;
         case 'FV': // Corresponds to AMORT
             this.calculateAmortization();
-            return; // AMORT is a command, not a setter, so we exit early.
+            return;
     }
     this.isEnteringInput = false;
-    this.updateDisplay();
   }
 
-  // --- TVM Functions ---
+  setPaymentsPerYear(ppy) {
+    if (ppy > 0) {
+        this.tvmValues.P_YR = ppy;
+        this.tvmValues.I_YR = null;
+    }
+  }
+
+  toggleBegEnd() {
+    this.tvmValues.isBeginningMode = !this.tvmValues.isBeginningMode;
+  }
+
   setTVMValue(key, value = null) {
     const internalKey = (key.toUpperCase() === 'I/YR') ? 'I_YR' : key.toUpperCase();
     const val = value !== null ? value : parseFloat(this.currentInput);
@@ -197,50 +177,37 @@ class CalculatorEngine {
     if (this.tvmValues.hasOwnProperty(internalKey)) {
         this.tvmValues[internalKey] = val;
     }
-    
     this.isEnteringInput = false;
-    this.updateDisplay();
   }
 
   calculateTVM(keyToCalculate) {
     const internalKey = (keyToCalculate.toUpperCase() === 'I/YR') ? 'I_YR' : keyToCalculate.toUpperCase();
     try {
       const result = calculateTVM(
-        this.tvmValues.I_YR,
-        this.tvmValues.N,
-        this.tvmValues.PMT,
-        this.tvmValues.PV,
-        this.tvmValues.FV,
-        internalKey,
-        this.tvmValues.P_YR,
-        this.tvmValues.isBeginningMode
+        this.tvmValues.I_YR, this.tvmValues.N, this.tvmValues.PMT,
+        this.tvmValues.PV, this.tvmValues.FV, internalKey,
+        this.tvmValues.P_YR, this.tvmValues.isBeginningMode
       );
       this.currentInput = result.toString();
-      // Store the result back into the TVM register.
       this.tvmValues[internalKey] = result;
     } catch(error) {
       this.currentInput = "Error";
     }
     this.isEnteringInput = false;
-    this.updateDisplay();
   }
 
-  // Placeholder for Amortization
   calculateAmortization() {
     console.log("Amortization calculation triggered.");
     this.currentInput = "AMORT";
     this.isEnteringInput = false;
-    this.updateDisplay();
   }
 
-  // --- Memory Functions ---
   store(register) {
     const r = parseInt(register, 10);
     if (!isNaN(r) && r >= 0 && r <= 9) {
       this.memory.store(r, parseFloat(this.currentInput));
-      this.isEnteringInput = false; // After storing, new input can start
+      this.isEnteringInput = false;
     }
-    this.updateDisplay();
   }
 
   recall(register) {
@@ -252,54 +219,67 @@ class CalculatorEngine {
         this.isEnteringInput = false;
       }
     }
-    this.updateDisplay();
   }
-
-  updateDisplay() {
-    // Format the number for display based on decimalPlaces
-    // But keep the internal value as a full-precision string
-    
-    // The C-ALL command has a special temporary display that overrides normal formatting
-    if (this.currentInput.endsWith('P_Yr-')) {
-        this.display = this.currentInput;
-        return;
-    }
-
-    if (this.isEnteringInput) {
-      this.display = this.currentInput;
-    } else {
-      const num = parseFloat(this.currentInput);
-      if (!isNaN(num)) {
-        const style = this.numberFormatStyle === 'us' ? 'en-US' : 'de-DE';
-        this.display = num.toLocaleString(style, {
-            minimumFractionDigits: this.decimalPlaces,
-            maximumFractionDigits: this.decimalPlaces,
-        });
-      } else {
-        this.display = this.currentInput; // Display error messages etc.
-      }
-    }
-  }
-
-  get displayValue() {
-    return this.display;
-  }
-
+  
   backspace() {
-    if (this.currentInput === "Error") return;
+    if (this.currentInput === "Error" || !this.isEnteringInput) return;
     if (this.currentInput.length > 1) {
         this.currentInput = this.currentInput.slice(0, -1);
     } else {
         this.currentInput = '0';
     }
-    // After backspace, we are definitely in input mode.
-    this.isEnteringInput = true;
-    this.updateDisplay();
   }
 
-  toggleBeginningMode() {
-    this.tvmValues.isBeginningMode = !this.tvmValues.isBeginningMode;
-    this.updateDisplay();
+  getDisplayState() {
+    let formattedValue;
+    const num = parseFloat(this.currentInput);
+
+    if (this.currentInput.endsWith('.')) {
+        // Handle trailing decimal for input like "123."
+        const integerPart = this.currentInput.slice(0, -1);
+        const numToFormat = parseFloat(integerPart);
+        const sep = this.numberFormatStyle === 'us' ? ',' : '.';
+        formattedValue = numToFormat.toLocaleString(this.numberFormatStyle === 'us' ? 'en-US' : 'de-DE').replace(/[\.,]/g, (match) => (match === sep ? sep : '')) + (this.numberFormatStyle === 'us' ? '.' : ',');
+    } else if (!isNaN(num)) {
+        // Format numbers that are not currently being input, or have been finalized
+        const style = this.numberFormatStyle === 'us' ? 'en-US' : 'de-DE';
+        const options = {
+            minimumFractionDigits: this.decimalPlaces,
+            maximumFractionDigits: this.decimalPlaces,
+        };
+        // During input, don't apply decimal places yet
+        if (this.isEnteringInput && !this.currentInput.includes('.')) {
+            options.minimumFractionDigits = 0;
+            options.maximumFractionDigits = 0;
+        } else if (this.isEnteringInput) {
+            const parts = this.currentInput.split('.');
+            options.minimumFractionDigits = parts[1] ? parts[1].length : 0;
+            options.maximumFractionDigits = parts[1] ? parts[1].length : 0;
+        }
+        
+        formattedValue = num.toLocaleString(style, options);
+
+    } else {
+        // For non-numeric values like "Error"
+        formattedValue = this.currentInput;
+    }
+
+    // Manual comma/period swap for toLocaleString which is buggy on some systems
+    if (this.numberFormatStyle === 'eu') {
+      const temp = formattedValue.replace(/,/g, '|');
+      formattedValue = temp.replace(/\./g, ',');
+      formattedValue = formattedValue.replace(/\|/g, '.');
+    }
+
+
+    return {
+        value: formattedValue,
+        shiftMode: this.shiftMode,
+        begMode: this.tvmValues.isBeginningMode,
+        paymentsPerYear: this.tvmValues.P_YR,
+        isError: this.currentInput === "Error",
+        pend: this.operator !== null,
+    };
   }
 }
 

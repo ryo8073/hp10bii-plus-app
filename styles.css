@@ -112,43 +112,37 @@ body {
     border: 3px solid var(--calculator-border);
 }
 
-.display {
-    background-color: var(--display-bg);
-    border: 2px solid var(--display-border);
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 20px;
-    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4);
-}
-
-.display-status {
-    height: 20px;
-    font-size: 0.8em;
-    color: var(--display-status-text);
-    text-align: right;
-    padding-right: 5px;
-}
-
-.display-main {
-    font-size: 2.5em;
+.display-container {
+    background-color: #c9d2b8;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
     font-family: 'Segment7', sans-serif;
-    color: var(--display-main-text);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.status-indicators {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: #333;
+    height: 15px;
+    padding: 0 5px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.display {
     text-align: right;
+    font-size: 2.5em;
     height: 50px;
     line-height: 50px;
-    text-shadow: 0 0 2px rgba(0,0,0,0.2);
-}
-
-#pend-status {
-    float: left;
-    padding-left: 5px;
-    font-weight: bold;
-    color: var(--display-status-text);
-}
-
-#beg-status {
-    padding-right: 5px;
-    font-weight: bold;
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 5px;
 }
 
 .keys-grid {
@@ -418,4 +412,36 @@ body {
     padding: 1px 3px; /* Reduced padding */
     min-width: 40px;
     text-align: center;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.key.active {
+    background-color: var(--key-active-bg);
+    transform: translateY(2px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.shift-text-orange,
+.shift-text-blue {
+    position: absolute;
+    font-size: 0.6em;
+    font-weight: bold;
+    pointer-events: none; /* Make text non-clickable */
+}
+
+.shift-text-orange {
+    bottom: 4px;
+    right: 5px;
+    color: var(--key-shift-orange-text);
+}
+
+.shift-text-blue {
+    top: 4px;
+    left: 5px;
+    color: var(--key-shift-blue-text);
 } 
