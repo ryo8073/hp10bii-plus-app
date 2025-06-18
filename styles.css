@@ -146,9 +146,55 @@ body {
 }
 
 .keys-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Increased gap between rows/groups */
+}
+
+.key-row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
+}
+
+.key-wrapper {
+    position: relative;
+}
+
+.key-label-external {
+    position: absolute;
+    top: -16px; /* Position above the key row */
+    left: 0;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--text-color);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.key-group-label-container {
+    border-bottom: 2px solid var(--key-bg);
+    margin: 0 5px 2px 5px; /* Line under the label */
+    padding-bottom: 2px;
+}
+
+.key-group-label {
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--text-color);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.key-group-label.left-align {
+    text-align: left;
+}
+
+/* Make icons slightly smaller to fit better */
+.key-icon {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
 }
 
 .key {
@@ -204,12 +250,6 @@ body {
 .key-shift-blue {
     background-color: var(--key-text-blue);
     color: var(--key-text-main);
-}
-
-.key-icon {
-    width: 1.5em;
-    height: 1.5em;
-    stroke: var(--key-text-main);
 }
 
 .shift-blue,
