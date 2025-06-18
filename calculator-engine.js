@@ -57,46 +57,51 @@ class CalculatorEngine {
       return;
     }
 
-    if (this.waitingForSecondOperand) {
+    // If we are not in entry mode OR we are waiting for a second operand, start a new number.
+    if (!this.isEnteringInput || this.waitingForSecondOperand) {
       this.currentInput = digit;
-      this.waitingForSecondOperand = false;
     } else {
-      if (this.currentInput === '0' || !this.isEnteringInput) {
-        this.currentInput = digit;
-        this.isEnteringInput = true;
-      } else {
-        this.currentInput += digit;
-      }
+      // Otherwise, append to the current number.
+      this.currentInput = (this.currentInput === '0') ? digit : this.currentInput + digit;
     }
+
+    this.isEnteringInput = true;
+    this.waitingForSecondOperand = false;
     this.updateDisplay();
   }
 
   inputDecimal() {
-    if (this.isWaitingForSequencedInput) return; // Ignore during sequence
-    this.isEnteringInput = true;
-    if (this.currentInput.includes('.')) return;
-    if (this.currentInput === '0' || !this.isEnteringInput) {
-      this.currentInput = '0.';
-    } else {
-      this.currentInput += '.';
+    if (this.isWaitingForSequencedInput) return;
+
+    // If starting a new number after an op, or not in entry, start with "0."
+    if (!this.isEnteringInput || this.waitingForSecondOperand) {
+        this.currentInput = '0.';
+    } else if (!this.currentInput.includes('.')) {
+        // otherwise, append if no decimal yet
+        this.currentInput += '.';
     }
+    
+    this.isEnteringInput = true;
+    this.waitingForSecondOperand = false;
     this.updateDisplay();
   }
 
   changeSign() {
-    if (this.currentInput !== '0') {
+    if (this.currentInput !== '0' && this.currentInput !== 'Error') {
       this.currentInput = (parseFloat(this.currentInput) * -1).toString();
     }
     this.updateDisplay();
   }
 
   setOperator(op) {
+    if (this.currentInput === 'Error') return;
     if (this.operator && !this.waitingForSecondOperand) {
       this.calculate();
     }
     this.previousInput = parseFloat(this.currentInput);
     this.operator = op;
     this.waitingForSecondOperand = true;
+    this.isEnteringInput = false; // FINISH number entry, allow formatting
   }
 
   calculate() {
