@@ -21,6 +21,8 @@ class CalculatorEngine {
 
   // Resets the entire calculator to its default state
   clearAll() {
+    const p_yr = this.tvmValues ? this.tvmValues.P_YR : 12; // Preserve P/YR
+    
     this.clear();
     this.tvmValues = {
       N: null,
@@ -28,7 +30,7 @@ class CalculatorEngine {
       PV: null,
       PMT: null,
       FV: null,
-      P_YR: 12, // Default to 12 payments per year
+      P_YR: p_yr, // Restore P/YR
       isBeginningMode: false
     };
     this.memory.clearAll();

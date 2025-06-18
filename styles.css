@@ -167,7 +167,7 @@ body {
     left: 0;
     font-size: 0.7em;
     font-weight: bold;
-    color: var(--text-color);
+    color: var(--key-shift-blue-text); /* Changed to blue */
     text-transform: uppercase;
     white-space: nowrap;
 }
@@ -195,6 +195,7 @@ body {
     width: 20px;
     height: 20px;
     pointer-events: none;
+    stroke: var(--key-text-main); /* Set icon color */
 }
 
 .key {
@@ -548,4 +549,23 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(20px);
+}
+
+.key-row-with-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.key-row-side-label {
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--text-color);
+    text-transform: uppercase;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    flex-shrink: 0;
+    width: 1.5em; /* Give it a fixed width */
 } 
