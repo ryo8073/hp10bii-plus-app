@@ -157,28 +157,21 @@ body {
     gap: 12px;
 }
 
-.keypad-main-section {
-    display: flex;
-    gap: 5px; /* Gap between side labels and numpad */
-}
-
-.keypad-side-labels {
-    position: relative;
-    flex-shrink: 0;
-    width: 1.5em; /* Width for the side labels column */
-}
-
 .keypad-numpad-grid {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 12px; /* This sets the gap between the numpad rows */
+}
+
+.key-row-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Gap between side-label and key-row */
 }
 
 .side-label {
-    position: absolute;
-    left: 0;
-    right: 0;
+    flex-shrink: 0;
+    width: 1.5em;
     font-size: 0.7em;
     font-weight: bold;
     color: var(--key-shift-blue-text);
@@ -190,25 +183,26 @@ body {
 }
 
 .key-row {
+    flex-grow: 1;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
-    white-space: nowrap;
-}
-
-.key-wrapper {
-    position: relative;
 }
 
 .key-label-external {
     position: absolute;
-    top: -16px; /* Position above the key row */
+    top: -16px;
     left: 0;
     font-size: 0.7em;
     font-weight: bold;
-    color: var(--key-shift-blue-text); /* Use blue color */
+    color: var(--key-shift-blue-text);
     text-transform: uppercase;
     white-space: nowrap;
+}
+
+/* Cleanup old selectors */
+.keypad-main-section, .keypad-side-labels, .key-row-side-label {
+   display: none; /* No longer used */
 }
 
 .key-group-label-container {
