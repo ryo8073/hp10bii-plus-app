@@ -12,7 +12,7 @@
     <div class="app-container">
         <main class="content-area">
             <div id="calculator-content" class="tab-content active">
-                <div class="calculator-container">
+                <div class="calculator-container stats-hidden">
                     <div class="display-container">
                         <div id="status-indicators" class="status-indicators">
                             <span id="shift-indicator"></span>
@@ -24,11 +24,11 @@
                     </div>
 
                     <div class="tvm-registers">
-                        <div class="tvm-reg-item"><span id="tvm-n-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span id="tvm-iyr-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span id="tvm-pv-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span id="tvm-pmt-display">0.00</span></div>
-                        <div class="tvm-reg-item"><span id="tvm-fv-display">0.00</span></div>
+                        <div class="tvm-reg-item" title="N"><span id="tvm-n-display">0.00</span></div>
+                        <div class="tvm-reg-item" title="I/YR"><span id="tvm-iyr-display">0.00</span></div>
+                        <div class="tvm-reg-item" title="PV"><span id="tvm-pv-display">0.00</span></div>
+                        <div class="tvm-reg-item" title="PMT"><span id="tvm-pmt-display">0.00</span></div>
+                        <div class="tvm-reg-item" title="FV"><span id="tvm-fv-display">0.00</span></div>
                     </div>
 
                     <div class="keys-grid">
@@ -40,69 +40,65 @@
                         <button class="key" data-key="FV" data-shift-orange="AMORT" data-shift-blue="CALL">FV</button>
 
                         <!-- Row 2 -->
-                        <button class="key" data-key="INPUT" data-shift-orange="D.MY/M.DY" data-shift-blue="360/Act">INPUT</button>
-                        <button class="key" data-key="MU" data-shift-orange="ΔDAYS" data-shift-blue="Semi/Ann">MU</button>
-                        <button class="key" data-key="CST" data-shift-orange="IRR/YR" data-shift-blue="SetDate">CST</button>
-                        <button class="key" data-key="PRC" data-shift-orange="NPV" data-shift-blue="MatDate">PRC</button>
-                        <button class="key" data-key="MAR" data-shift-orange="Beg/End" data-shift-blue="MAR">MAR</button>
-
-                        <!-- Row 3 -->
-                        <button class="key" data-key="K" data-shift-orange="SWAP" data-shift-blue="UNITS">K</button>
+                        <button class="key" data-key="K" data-shift-orange="SWAP" data-shift-blue="B.E.">K</button>
                         <button class="key" data-key="PERCENT" data-shift-orange="%CHG" data-shift-blue="SP">%</button>
-                        <button class="key" data-key="CFj" data-shift-orange="Nj" data-shift-blue="BREAKEVEN VC">CFj</button>
+                        <button class="key" data-key="CFj" data-shift-orange="Nj" data-shift-blue="VC">CFj</button>
                         <button class="key" data-key="SUM" data-shift-orange="Σ-" data-shift-blue="FC">Σ+</button>
                         <button class="key" data-key="BACKSPACE" data-shift-orange="RND" data-shift-blue="PROFIT">
                             <svg class="key-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
                         </button>
+                        
+                        <!-- Row 3 -->
+                        <button class="key" data-key="+/-" data-shift-orange="E" data-shift-blue="Depr">+/-</button>
+                        <button class="key" data-key="RCL" data-shift-orange="STO" data-shift-blue="DEPRECIATION SOYD">RCL</button>
+                        <button class="key" data-key="TO_M" data-shift-orange="C STAT" data-shift-blue="DB">→M</button>
+                        <button class="key" data-key="RM" data-shift-orange="(" data-shift-blue="HYP">RM</button>
+                        <button class="key" data-key="M+" data-shift-orange="Σx" data-shift-blue="INV">M+</button>
 
                         <!-- Row 4 -->
-                        <button class="key" data-key="+/-" data-shift-orange="E" data-shift-blue="DEPRECIATION">+/-</button>
-                        <button class="key" data-key="RCL" data-shift-orange="STO" data-shift-blue="SOYD">RCL</button>
-                        <button class="key" data-key="TO_M" data-shift-orange="C STAT" data-shift-blue="DB">→M</button>
-                        <button class="key" data-key="RM" data-shift-orange="Σy" data-shift-blue="HYP">RM</button>
-                        <button class="key" data-key="M+" data-shift-orange="Σx" data-shift-blue="INV">M+</button>
+                        <button class="key key-shift-blue" data-key="SHIFT_BLUE">↑</button>
+                        <button class="key key-num" data-key="7" data-shift-orange="n" data-shift-blue="x̄,ȳ">7</button>
+                        <button class="key key-num" data-key="8" data-shift-orange="Σx" data-shift-blue="Sx,Sy">8</button>
+                        <button class="key key-num" data-key="9" data-shift-orange="Σy" data-shift-blue="σx,σy">9</button>
+                        <button class="key key-op" data-key="DIVIDE" data-shift-orange="1/x" data-shift-blue="SIN">÷</button>
                         
                         <!-- Row 5 -->
-                        <button class="key key-shift-blue" data-key="SHIFT_BLUE" data-shift-blue="BOND">↑</button>
-                        <button class="key key-num" data-key="7" data-shift-orange="x,y">7</button>
-                        <button class="key key-num" data-key="8" data-shift-orange="Sx,Sy">8</button>
-                        <button class="key key-num" data-key="9" data-shift-orange="σx,σy">9</button>
-                        <button class="key key-op" data-key="DIVIDE" data-shift-orange="1/x">÷</button>
+                        <button class="key key-shift-orange" data-key="SHIFT_ORANGE">↓</button>
+                        <button class="key key-num" data-key="4" data-shift-orange="nPr" data-shift-blue="x̂,r">4</button>
+                        <button class="key key-num" data-key="5" data-shift-orange="nCr" data-shift-blue="ŷ,m">5</button>
+                        <button class="key key-num" data-key="6" data-shift-orange="RAND" data-shift-blue="x̄w,b">6</button>
+                        <button class="key key-op" data-key="MULTIPLY" data-shift-orange="yx" data-shift-blue="TAN">×</button>
                         
                         <!-- Row 6 -->
-                        <button class="key key-shift-orange" data-key="SHIFT_ORANGE" data-shift-orange="BRK">↓</button>
-                        <button class="key key-num" data-key="4" data-shift-orange="x,r">4</button>
-                        <button class="key key-num" data-key="5" data-shift-orange="y,m">5</button>
-                        <button class="key key-num" data-key="6" data-shift-orange="xw,b">6</button>
-                        <button class="key key-op" data-key="MULTIPLY" data-shift-orange="yx">×</button>
-                        
-                        <!-- Row 7 -->
                         <button class="key" data-key="C" data-shift-orange="C ALL" data-shift-blue="C MEM">C</button>
-                        <button class="key key-num" data-key="1" data-shift-orange="ex">1</button>
-                        <button class="key key-num" data-key="2" data-shift-orange="LN">2</button>
-                        <button class="key key-num" data-key="3" data-shift-orange="n!">3</button>
-                        <button class="key key-op" data-key="SUBTRACT" data-shift-orange="√x">-</button>
+                        <button class="key key-num" data-key="1" data-shift-orange="ex" data-shift-blue="REGR">1</button>
+                        <button class="key key-num" data-key="2" data-shift-orange="LN" data-shift-blue="df,t↔P">2</button>
+                        <button class="key key-num" data-key="3" data-shift-orange="n!" data-shift-blue="Z↔P">3</button>
+                        <button class="key key-op" data-key="SUBTRACT" data-shift-orange="√x" data-shift-blue="Rad/Deg">-</button>
 
-                        <!-- Row 8 -->
+                        <!-- Row 7 -->
                         <button class="key" data-key="ON" data-shift-orange="OFF" data-shift-blue="Alg/Chain">ON</button>
-                        <button class="key key-num" data-key="0" data-shift-orange="π">0</button>
-                        <button class="key key-num" data-key="." data-shift-orange=",/.">.</button>
-                        <button class="key key-op" data-key="=" data-shift-orange="DISP">=</button>
-                        <button class="key key-op" data-key="ADD" data-shift-orange="x²">+</button>
+                        <button class="key key-num" data-key="0" data-shift-orange="π" data-shift-blue="nPr">0</button>
+                        <button class="key key-num" data-key="." data-shift-orange=",/." data-shift-blue="nCr">.</button>
+                        <button class="key key-op" data-key="=" data-shift-orange="DISP" data-shift-blue=")">=</button>
+                        <button class="key key-op" data-key="ADD" data-shift-orange="x²" data-shift-blue="RND " >+</button>
+                    </div>
+
+                    <div id="app-toggles" class="app-toggles">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="stats-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="toggle-label">Show Stats Functions</span>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-    <!-- Dependent scripts first -->
-    <script src="utils.js"></script>
+    <!-- Scripts -->
     <script src="memory-manager.js"></script>
     <script src="financial-functions.js"></script>
     <script src="calculator-engine.js"></script>
-    <script src="capital-accumulation.js"></script>
-    
-    <!-- Main application scripts last -->
     <script src="main.js"></script>
-    <script src="capital-accumulation-ui.js"></script>
 </body>
 </html> 

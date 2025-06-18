@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ppyIndicator = document.getElementById('payments-per-year-indicator');
     const modeIndicator = document.getElementById('mode-indicator');
     const keysGrid = document.querySelector('.keys-grid'); // Corrected selector
+    const calculatorContainer = document.querySelector('.calculator-container');
+    const statsToggle = document.getElementById('stats-toggle');
     const tvmDisplays = {
         N: document.getElementById('tvm-n-display'),
         I_YR: document.getElementById('tvm-iyr-display'),
@@ -192,6 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if(keyElement) {
                 keyElement.click(); // Simulate a click on the corresponding button
             }
+        }
+    });
+
+    statsToggle.addEventListener('change', (event) => {
+        if (event.target.checked) {
+            calculatorContainer.classList.remove('stats-hidden');
+        } else {
+            calculatorContainer.classList.add('stats-hidden');
         }
     });
 
