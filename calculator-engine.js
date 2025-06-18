@@ -45,9 +45,10 @@ class CalculatorEngine {
     const p = parseInt(places, 10);
     if (!isNaN(p) && p >= 0 && p <= 9) {
       this.decimalPlaces = p;
-      this.isEnteringInput = false; // To show the formatted number right away
     }
-    this.currentInput = '0'; // Per real calc behavior
+    // After setting decimal places, the calculator is no longer in active input mode.
+    // This will cause the display to re-format the current number.
+    this.isEnteringInput = false;
     this.updateDisplay();
   }
 
