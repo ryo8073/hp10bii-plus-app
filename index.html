@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="keys-grid">
-                        <!-- Group 1 & 2: Top functions -->
+                        <!-- Top function rows -->
                         <div class="key-row">
                             <button class="key" data-key="N" data-shift-orange="xP/YR" data-shift-blue="AccInt">N</button>
                             <button class="key" data-key="I/YR" data-shift-orange="NOM%" data-shift-blue="YTM">I/YR</button>
@@ -48,82 +48,63 @@
                             <button class="key" data-key="MAR" data-shift-orange="Beg/End" data-shift-blue="MatDate">MAR</button>
                         </div>
                         <div class="key-row">
-                            <div class="key-wrapper">
-                                <span class="key-label-external top-left">B.E.</span>
-                                <button class="key" data-key="K" data-shift-orange="SWAP" data-shift-blue="UNITS">K</button>
-                            </div>
+                            <div class="key-wrapper"><span class="key-label-external top-left">B.E.</span><button class="key" data-key="K" data-shift-orange="SWAP" data-shift-blue="UNITS">K</button></div>
                             <button class="key" data-key="PERCENT" data-shift-orange="%CHG" data-shift-blue="SP">%</button>
                             <button class="key" data-key="CFj" data-shift-orange="Nj" data-shift-blue="VC">CFj</button>
                             <button class="key" data-key="SUM" data-shift-orange="Σ-" data-shift-blue="FC">Σ+</button>
-                            <button class="key" data-key="BACKSPACE" data-shift-orange="RND" data-shift-blue="PROFIT">
-                                <svg class="key-icon" viewBox="0 0 24 24"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
-                            </button>
+                            <button class="key" data-key="BACKSPACE" data-shift-orange="RND" data-shift-blue="PROFIT"><svg class="key-icon" viewBox="0 0 24 24"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg></button>
                         </div>
                         <div class="key-row">
-                             <div class="key-wrapper">
-                                <span class="key-label-external top-left">DPR</span>
-                                <button class="key" data-key="+/-" data-shift-orange="E" data-shift-blue="SL">+/-</button>
-                            </div>
+                             <div class="key-wrapper"><span class="key-label-external top-left">DPR</span><button class="key" data-key="+/-" data-shift-orange="E" data-shift-blue="SL">+/-</button></div>
                             <button class="key" data-key="RCL" data-shift-orange="STO" data-shift-blue="SOYD">RCL</button>
                             <button class="key" data-key="TO_M" data-shift-orange="C STAT" data-shift-blue="DB">→M</button>
                             <button class="key" data-key="RM" data-shift-orange="(" data-shift-blue="HYP">RM</button>
                             <button class="key" data-key="M+" data-shift-orange=")" data-shift-blue="INV">M+</button>
                         </div>
 
-                        <!-- Group 3: Numpad with side labels -->
-                        <div class="key-row-with-label">
-                            <span class="key-row-side-label">BOND</span>
-                            <div class="key-row">
-                                <button class="key key-shift-blue" data-key="SHIFT_BLUE">↑</button>
-                                <button class="key key-num" data-key="7" data-shift-orange="n" data-shift-blue="x̄,ȳ">7</button>
-                                <button class="key key-num" data-key="8" data-shift-orange="Σx" data-shift-blue="Sx,Sy">8</button>
-                                <button class="key key-num" data-key="9" data-shift-orange="Σy" data-shift-blue="σx,σy">9</button>
-                                <button class="key key-op" data-key="DIVIDE" data-shift-orange="1/x" data-shift-blue="SIN">÷</button>
+                        <!-- Numpad section with side labels -->
+                        <div class="keypad-main-section">
+                            <div class="keypad-side-labels">
+                                <span class="side-label" style="top: 25px;">BOND</span>
+                                <span class="side-label" style="top: 82px;">BRK</span>
+                                <span class="side-label" style="top: 139px;">TVM</span>
+                                <span class="side-label" style="top: 196px;">CFLO</span>
                             </div>
-                        </div>
-                        <div class="key-row-with-label">
-                            <span class="key-row-side-label">BRK</span>
-                            <div class="key-row">
-                                <button class="key key-shift-orange" data-key="SHIFT_ORANGE">↓</button>
-                                <button class="key key-num" data-key="4" data-shift-orange="ŷ,m" data-shift-blue="x̂,r">4</button>
-                                <button class="key key-num" data-key="5" data-shift-orange="x̄w,b" data-shift-blue="ŷ,m">5</button>
-                                <button class="key key-num" data-key="6" data-shift-orange="yx" data-shift-blue="x̄w,b">6</button>
-                                <button class="key key-op" data-key="MULTIPLY" data-shift-orange="yx" data-shift-blue="COS">×</button>
-                            </div>
-                        </div>
-                        <div class="key-row-with-label">
-                            <span class="key-row-side-label">TVM</span>
-                            <div class="key-row">
-                                <div class="key-wrapper">
-                                    <span class="key-label-external top-left">C MEM</span>
-                                    <button class="key" data-key="C" data-shift-orange="C ALL" data-shift-blue="C MEM">C</button>
+                            <div class="keypad-numpad-grid">
+                                <div class="key-row">
+                                    <button class="key key-shift-blue" data-key="SHIFT_BLUE">↑</button>
+                                    <button class="key key-num" data-key="7" data-shift-orange="n" data-shift-blue="Σx²">7</button>
+                                    <button class="key key-num" data-key="8" data-shift-orange="Σx" data-shift-blue="Σy²">8</button>
+                                    <button class="key key-num" data-key="9" data-shift-orange="Σy" data-shift-blue="Σxy">9</button>
+                                    <button class="key key-op" data-key="DIVIDE" data-shift-orange="1/x" data-shift-blue="SIN">÷</button>
                                 </div>
-                                <button class="key key-num" data-key="1" data-shift-orange="ex" data-shift-blue="REGR">1</button>
-                                <button class="key key-num" data-key="2" data-shift-orange="LN" data-shift-blue="df,t↔P">2</button>
-                                <button class="key key-num" data-key="3" data-shift-orange="n!" data-shift-blue="Z↔P">3</button>
-                                <button class="key key-op" data-key="SUBTRACT" data-shift-orange="√x" data-shift-blue="TAN">-</button>
-                            </div>
-                        </div>
-                        <div class="key-row-with-label">
-                            <span class="key-row-side-label">CFLO</span>
-                            <div class="key-row">
-                                <div class="key-wrapper">
-                                     <span class="key-label-external top-left">Alg/Chain</span>
-                                    <button class="key" data-key="ON" data-shift-orange="OFF" data-shift-blue="Alg/Chain">ON</button>
+                                <div class="key-row">
+                                    <button class="key key-shift-orange" data-key="SHIFT_ORANGE">↓</button>
+                                    <button class="key key-num" data-key="4" data-shift-orange="ŷ,m" data-shift-blue="x̄,ȳ">4</button>
+                                    <button class="key key-num" data-key="5" data-shift-orange="x̄w,b" data-shift-blue="Sx,Sy">5</button>
+                                    <button class="key key-num" data-key="6" data-shift-orange="yx" data-shift-blue="σx,σy">6</button>
+                                    <button class="key key-op" data-key="MULTIPLY" data-shift-orange="x²" data-shift-blue="COS">×</button>
                                 </div>
-                                <button class="key key-num" data-key="0" data-shift-orange="π" data-shift-blue="nPr">0</button>
-                                <button class="key key-num" data-key="." data-shift-orange=",/." data-shift-blue="nCr">.</button>
-                                <button class="key key-op" data-key="=" data-shift-orange="DISP" data-shift-blue=")">=</button>
-                                <button class="key key-op" data-key="ADD" data-shift-orange="x²" data-shift-blue="RND">+</button>
+                                <div class="key-row">
+                                    <div class="key-wrapper"><span class="key-label-external top-left">C MEM</span><button class="key" data-key="C" data-shift-orange="C ALL" data-shift-blue="">C</button></div>
+                                    <button class="key key-num" data-key="1" data-shift-orange="ex" data-shift-blue="REGR">1</button>
+                                    <button class="key key-num" data-key="2" data-shift-orange="LN" data-shift-blue="df,t↔P">2</button>
+                                    <button class="key key-num" data-key="3" data-shift-orange="n!" data-shift-blue="Z↔P">3</button>
+                                    <button class="key key-op" data-key="SUBTRACT" data-shift-orange="√x" data-shift-blue="TAN">-</button>
+                                </div>
+                                <div class="key-row">
+                                    <div class="key-wrapper"><span class="key-label-external top-left">Alg/Chain</span><button class="key" data-key="ON" data-shift-orange="OFF" data-shift-blue="">ON</button></div>
+                                    <button class="key key-num" data-key="0" data-shift-orange="π" data-shift-blue="nPr">0</button>
+                                    <button class="key key-num" data-key="." data-shift-orange=",/." data-shift-blue="nCr">.</button>
+                                    <button class="key key-op" data-key="=" data-shift-orange="DISP" data-shift-blue="RAND"> =</button>
+                                    <button class="key key-op" data-key="ADD" data-shift-orange="x²" data-shift-blue="">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div id="app-toggles" class="app-toggles">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="stats-toggle">
-                            <span class="slider"></span>
-                        </label>
+                        <label class="toggle-switch"><input type="checkbox" id="stats-toggle"><span class="slider"></span></label>
                         <span class="toggle-label">Show Stats Functions</span>
                     </div>
                 </div>

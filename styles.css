@@ -154,13 +154,46 @@ body {
 .keys-grid {
     display: flex;
     flex-direction: column;
-    gap: 12px; /* Increased gap between rows/groups */
+    gap: 12px;
+}
+
+.keypad-main-section {
+    display: flex;
+    gap: 5px; /* Gap between side labels and numpad */
+}
+
+.keypad-side-labels {
+    position: relative;
+    flex-shrink: 0;
+    width: 1.5em; /* Width for the side labels column */
+}
+
+.keypad-numpad-grid {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.side-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--key-shift-blue-text);
+    text-transform: uppercase;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
 }
 
 .key-row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
+    white-space: nowrap;
 }
 
 .key-wrapper {
@@ -179,9 +212,7 @@ body {
 }
 
 .key-group-label-container {
-    border-bottom: 2px solid var(--key-bg);
-    margin: 0 5px 2px 5px; /* Line under the label */
-    padding-bottom: 2px;
+    display: none; /* No longer used */
 }
 
 .key-group-label {
@@ -557,21 +588,11 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-.key-row-with-label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+/* Cleanup old selectors */
+.key-row-with-label, .key-row-side-label {
+    display: none; /* No longer used */
 }
 
-.key-row-side-label {
-    font-size: 0.7em;
-    font-weight: bold;
-    color: var(--key-shift-blue-text); /* Use blue color */
-    text-transform: uppercase;
-    white-space: nowrap;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    text-align: center;
-    flex-shrink: 0;
-    width: 1.5em; /* Give it a fixed width */
+.key-group-label-container {
+    display: none; /* No longer used */
 } 
