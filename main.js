@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const begIndicator = document.getElementById('beg-indicator');
     const ppyIndicator = document.getElementById('payments-per-year-indicator');
     const modeIndicator = document.getElementById('mode-indicator');
-    const keysGrid = document.querySelector('.keypad'); // Updated selector
+    const keysGrid = document.querySelector('.keys-grid'); // Corrected selector
     const tvmDisplays = {
         N: document.getElementById('tvm-n-display'),
         I_YR: document.getElementById('tvm-iyr-display'),
