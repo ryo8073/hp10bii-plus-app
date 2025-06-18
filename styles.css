@@ -1,28 +1,28 @@
 :root {
     --primary-bg-color: #f0f0f0;
     --secondary-bg-color: #ffffff;
-    --text-color: #e0e0e0;
+    --text-color: #f2f2f7;
     --accent-color: #007bff;
     --border-color: #444;
     --button-bg-color: #e0e0e0;
     --button-hover-bg-color: #d0d0d0;
     --button-active-bg-color: #c0c0c0;
-    --bg-color: #1e1e1e; /* Dark background for the page */
+    --bg-color: #2c2c2e;
     --link-color: #64b5f6;
     --header-bg: #2a2a2a;
     
     /* Calculator specific colors */
     --calculator-bg: #2d2d2d; /* Main calculator body */
     --calculator-border: #1a1a1a;
-    --display-bg: #c3d0c4; /* Classic green-ish LCD */
+    --display-bg: #c9d2b8; /* Classic green-ish LCD */
     --display-border: #4a4a4a;
     --display-main-text: #333;
-    --display-status-text: #555;
+    --display-status-text: #444;
 
     /* Key colors */
-    --key-bg: #3a3a3a; /* Dark grey for keys */
+    --key-bg: #4a4a4c;
     --key-border: #2a2a2a;
-    --key-text-main: #f5f5f5; /* White text */
+    --key-text-main: #f2f2f7;
     --key-text-orange: #ff9800; /* Vibrant orange */
     --key-text-blue: #2196f3; /* Vibrant blue */
 
@@ -33,6 +33,12 @@
 
     --key-shift-bg: #5a5a5a;
     --key-shift-text: #f5f5f5;
+
+    --key-shift-orange-text: #f39c12;
+    --key-shift-blue-text: #5dade2; /* Blue color for stats */
+    --key-active-bg: #6a6a6c;
+    --key-shift-orange-bg: #f39c12;
+    --key-shift-blue-bg: #007aff;
 }
 
 [data-theme="dark"] {
@@ -167,7 +173,7 @@ body {
     left: 0;
     font-size: 0.7em;
     font-weight: bold;
-    color: var(--key-shift-blue-text); /* Changed to blue */
+    color: var(--key-shift-blue-text); /* Use blue color */
     text-transform: uppercase;
     white-space: nowrap;
 }
@@ -484,7 +490,7 @@ body {
 .shift-text-blue {
     top: 4px;
     left: 5px;
-    color: var(--key-shift-blue-text);
+    color: var(--key-shift-blue-text); /* Ensure this var is set to a blue color */
 }
 
 /* Hide blue stats functions by default */
@@ -560,7 +566,7 @@ input:checked + .slider:before {
 .key-row-side-label {
     font-size: 0.7em;
     font-weight: bold;
-    color: var(--text-color);
+    color: var(--key-shift-blue-text); /* Use blue color */
     text-transform: uppercase;
     white-space: nowrap;
     writing-mode: vertical-rl;
