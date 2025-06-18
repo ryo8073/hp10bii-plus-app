@@ -169,22 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'PMT':
                 case 'FV':
                     if (orangeShifted) {
-                        // Handle shifted TVM keys
-                        switch(key) {
-                            case 'PMT': // P/YR
-                                engine.setTVMValue('P_YR');
-                                break;
-                             case 'FV': // AMORT
-                                engine.calculateAmortization();
-                                break;
-                            // Add other orange-shifted TVM functions here
-                        }
+                        engine.handleShiftedTVM(key);
                     } else {
-                        // If a value is in one of the TVM registers, pressing the key computes it
-                        if (engine.tvmValues[key] !== null) {
-                            engine.calculateTVM(key);
-                        } else {
+                        // If user is typing, set the value. Otherwise, compute it.
+                        if (engine.isEnteringInput) {
                             engine.setTVMValue(key);
+                        } else {
+                            engine.calculateTVM(key);
                         }
                     }
                     break;

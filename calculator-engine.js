@@ -155,17 +155,34 @@ class CalculatorEngine {
     // Don't reset shift mode here, main.js will do it
   }
 
+  handleShiftedTVM(key) {
+    const value = parseFloat(this.currentInput);
+    if (this.currentInput === 'Error' || isNaN(value)) return;
+
+    switch (key) {
+        case 'N': // Corresponds to xP/YR
+            const n = value * this.tvmValues.P_YR;
+            this.tvmValues.N = n;
+            this.currentInput = n.toString();
+            break;
+        case 'PMT': // Corresponds to P/YR
+            if (value > 0) this.tvmValues.P_YR = value;
+            break;
+        case 'FV': // Corresponds to AMORT
+            this.calculateAmortization();
+            return; // AMORT is a command, not a setter, so we exit early.
+    }
+    this.isEnteringInput = false;
+    this.updateDisplay();
+  }
+
   // --- TVM Functions ---
   setTVMValue(key, value = null) {
+    const internalKey = (key.toUpperCase() === 'I/YR') ? 'I_YR' : key.toUpperCase();
     const val = value !== null ? value : parseFloat(this.currentInput);
     
-    if (key.toUpperCase() === 'P_YR') {
-      if (val > 0) this.tvmValues.P_YR = val;
-    } else if (this.tvmValues.hasOwnProperty(key.toUpperCase())) {
-      this.tvmValues[key.toUpperCase()] = val;
-    } else if (this.tvmValues.hasOwnProperty(key)) {
-      // Fallback for older key names
-      this.tvmValues[key] = val;
+    if (this.tvmValues.hasOwnProperty(internalKey)) {
+        this.tvmValues[internalKey] = val;
     }
     
     this.isEnteringInput = false;
@@ -173,7 +190,7 @@ class CalculatorEngine {
   }
 
   calculateTVM(keyToCalculate) {
-    const key = keyToCalculate.toUpperCase();
+    const internalKey = (keyToCalculate.toUpperCase() === 'I/YR') ? 'I_YR' : keyToCalculate.toUpperCase();
     try {
       const result = calculateTVM(
         this.tvmValues.I_YR,
@@ -181,12 +198,12 @@ class CalculatorEngine {
         this.tvmValues.PMT,
         this.tvmValues.PV,
         this.tvmValues.FV,
-        key,
+        internalKey,
         this.tvmValues.P_YR,
         this.tvmValues.isBeginningMode
       );
       this.currentInput = result.toString();
-      this.tvmValues[key] = result;
+      this.tvmValues[internalKey] = result;
     } catch(error) {
       this.currentInput = "Error";
     }
