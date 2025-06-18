@@ -106,7 +106,7 @@ class CalculatorEngine {
   }
 
   calculate() {
-    if (this.operator && this.previousInput !== null) {
+    if (this.operator && this.previousInput !== null && !this.waitingForSecondOperand) {
       const current = parseFloat(this.currentInput);
       let result = 0;
       switch (this.operator) {
@@ -118,8 +118,9 @@ class CalculatorEngine {
       this.currentInput = result.toString();
       this.operator = null;
       this.previousInput = null;
-      this.isEnteringInput = false;
     }
+    // Pressing = always finalizes number entry, allowing it to be formatted.
+    this.isEnteringInput = false;
     this.updateDisplay();
   }
 
