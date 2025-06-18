@@ -76,9 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     keysGrid.addEventListener('click', (event) => {
-        if (!event.target.classList.contains('key')) return;
-
         const keyElement = event.target.closest('.key');
+        if (!keyElement) return; // If the click was not on a key or inside a key
+
         const key = keyElement.dataset.key;
         const orangeShifted = engine.shiftMode === 'orange';
         const blueShifted = engine.shiftMode === 'blue';
@@ -194,21 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let key = event.key;
+        let code = event.code;
         let handled = true;
 
-        if (key >= '0' && key <= '9') {
+        if ((key >= '0' && key <= '9') || (code.startsWith('Numpad') && !isNaN(parseInt(key, 10)))) {
             engine.inputDigit(key);
-        } else if (key === '.') {
+        } else if (key === '.' || code === 'NumpadDecimal') {
             engine.inputDecimal();
-        } else if (key === '+') {
+        } else if (key === '+' || code === 'NumpadAdd') {
             engine.setOperator('ADD');
-        } else if (key === '-') {
+        } else if (key === '-' || code === 'NumpadSubtract') {
             engine.setOperator('SUBTRACT');
-        } else if (key === '*') {
+        } else if (key === '*' || code === 'NumpadMultiply') {
             engine.setOperator('MULTIPLY');
-        } else if (key === '/') {
+        } else if (key === '/' || code === 'NumpadDivide') {
             engine.setOperator('DIVIDE');
-        } else if (key === 'Enter' || key === '=') {
+        } else if (key === 'Enter' || key === '=' || code === 'NumpadEnter') {
             engine.calculate();
         } else if (key === 'Backspace') {
             engine.backspace();
