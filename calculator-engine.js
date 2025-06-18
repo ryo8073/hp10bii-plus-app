@@ -26,19 +26,24 @@ class CalculatorEngine {
   clearAll() {
     this.clear();
     this.tvmValues = {
-      N: null,      // Number of periods
-      I_YR: null, // Interest per year
-      PV: null,     // Present Value
-      PMT: null,    // Payment
-      FV: null,     // Future Value
-      P_YR: 12,     // Periods per year
+      N: null,
+      I_YR: null,
+      PV: null,
+      PMT: null,
+      FV: null,
+      P_YR: 12, // Default to 12 payments per year
       isBeginningMode: false
     };
-    this.memory.clearAll(); // Assuming memory manager has a full clear
-    this.decimalPlaces = 2; // Default decimal places
-    this.shiftMode = null; // 'orange', 'blue', or null
-    this.isWaitingForSequencedInput = null; // For multi-key functions like STO/RCL
+    this.memory.clearAll();
+    this.decimalPlaces = 2;
+    this.shiftMode = null;
+    this.isWaitingForSequencedInput = null;
+
+    // Special display for C ALL: show current P/YR
+    this.currentInput = `${this.tvmValues.P_YR} P_Yr-`;
+    this.isEnteringInput = false; // This is a display state, not input
     this.updateDisplay();
+    this.currentInput = '0'; // Reset for next input, but display remains until then
   }
 
   setDecimalPlaces(places) {
@@ -244,6 +249,13 @@ class CalculatorEngine {
   updateDisplay() {
     // Format the number for display based on decimalPlaces
     // But keep the internal value as a full-precision string
+    
+    // The C-ALL command has a special temporary display that overrides normal formatting
+    if (this.currentInput.endsWith('P_Yr-')) {
+        this.display = this.currentInput;
+        return;
+    }
+
     if (this.isEnteringInput) {
       this.display = this.currentInput;
     } else {
